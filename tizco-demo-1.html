@@ -1,0 +1,1562 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>TIZCO — Refined Men's Fashion</title>
+<meta name="description" content="TIZCO — Premium men's clothing, shoes, bags, belts and accessories.">
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap" rel="stylesheet">
+<style>
+/* ══════════════════════════════════════════
+   TIZCO DEMO — COMPLETE STOREFRONT
+   ══════════════════════════════════════════ */
+:root{
+  --bg:#1C1C1E; --bg2:#232325; --bg3:#2A2A2D; --bg4:#303033;
+  --text:#F5F0E8; --muted:rgba(245,240,232,.5); --muted2:rgba(245,240,232,.25);
+  --gold:#C9A96E; --gold2:#D4B97E; --gold-dim:rgba(201,169,110,.18); --gold-glow:rgba(201,169,110,.06);
+  --border:rgba(201,169,110,.16); --border2:rgba(245,240,232,.07);
+  --serif:'Cormorant Garamond',Georgia,serif;
+  --sans:'DM Sans',system-ui,sans-serif;
+  --ease:cubic-bezier(.4,0,.2,1); --ease-out:cubic-bezier(0,0,.2,1);
+  --green:#5CB87A; --red:#E57373;
+}
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+html{scroll-behavior:smooth;font-size:16px;-webkit-text-size-adjust:100%}
+body{background:var(--bg);color:var(--text);font-family:var(--sans);font-weight:300;line-height:1.6;overflow-x:hidden}
+img{display:block;max-width:100%}
+a{color:inherit;text-decoration:none}
+button{cursor:pointer;border:none;background:none;font-family:inherit;color:inherit}
+input,select,textarea{font-family:inherit;font-size:16px;color:inherit}
+::-webkit-scrollbar{width:3px;height:3px}
+::-webkit-scrollbar-track{background:transparent}
+::-webkit-scrollbar-thumb{background:var(--border);border-radius:2px}
+
+/* ─── LOADER ─────────────────────── */
+#loader{
+  position:fixed;inset:0;z-index:9999;background:var(--bg);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:28px;
+  transition:opacity .7s var(--ease),visibility .7s;
+}
+#loader.out{opacity:0;visibility:hidden;pointer-events:none}
+.ld-logo{font-family:var(--serif);font-size:2.8rem;letter-spacing:.35em;color:var(--text);
+  animation:ld-fade .8s var(--ease) both}
+.ld-tagline{font-size:.68rem;letter-spacing:.3em;text-transform:uppercase;color:var(--gold);
+  animation:ld-fade .8s .2s var(--ease) both}
+.ld-bar{width:100px;height:1px;background:var(--border);overflow:hidden;animation:ld-fade .8s .3s var(--ease) both}
+.ld-fill{height:100%;background:var(--gold);animation:ld-fill 1.6s .4s var(--ease) forwards;width:0}
+@keyframes ld-fade{from{opacity:0;transform:translateY(8px)}to{opacity:1;transform:none}}
+@keyframes ld-fill{from{width:0}to{width:100%}}
+
+/* ─── NAV ────────────────────────── */
+nav{
+  position:fixed;top:0;left:0;right:0;z-index:100;height:68px;
+  display:flex;align-items:center;justify-content:space-between;padding:0 52px;
+  transition:background .5s var(--ease),border-bottom .5s;
+}
+nav.solid{background:rgba(28,28,30,.97);backdrop-filter:blur(16px);-webkit-backdrop-filter:blur(16px);border-bottom:1px solid var(--border2)}
+.nav-logo{font-family:var(--serif);font-size:1.5rem;letter-spacing:.28em;cursor:pointer;transition:opacity .3s}
+.nav-logo:hover{opacity:.75}
+.nav-links{display:flex;gap:32px}
+.nav-link{font-size:.72rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);cursor:pointer;transition:color .3s;padding:4px 0;position:relative}
+.nav-link::after{content:'';position:absolute;bottom:-2px;left:0;width:0;height:1px;background:var(--gold);transition:width .3s}
+.nav-link:hover,.nav-link.on{color:var(--text)}
+.nav-link:hover::after,.nav-link.on::after{width:100%}
+.nav-icons{display:flex;gap:18px;align-items:center}
+.ni{font-size:1.05rem;color:var(--muted);cursor:pointer;transition:color .3s;position:relative;padding:4px}
+.ni:hover{color:var(--text)}
+.ni-badge{
+  position:absolute;top:-4px;right:-6px;background:var(--gold);color:var(--bg);
+  font-size:.55rem;font-weight:600;width:15px;height:15px;border-radius:50%;
+  display:flex;align-items:center;justify-content:center;pointer-events:none;
+}
+.burger{display:none;flex-direction:column;gap:5px;cursor:pointer;padding:6px 4px}
+.burger span{display:block;width:20px;height:1px;background:var(--text);transition:all .35s}
+.burger.open span:nth-child(1){transform:translateY(6px) rotate(45deg)}
+.burger.open span:nth-child(2){opacity:0}
+.burger.open span:nth-child(3){transform:translateY(-6px) rotate(-45deg)}
+
+/* ─── MOBILE NAV ─────────────────── */
+.mob-nav{
+  position:fixed;inset:0;z-index:99;
+  background:rgba(28,28,30,.98);backdrop-filter:blur(20px);
+  display:flex;flex-direction:column;align-items:center;justify-content:center;gap:8px;
+  opacity:0;visibility:hidden;transition:all .4s var(--ease);
+}
+.mob-nav.open{opacity:1;visibility:visible}
+.mob-link{
+  font-family:var(--serif);font-size:2.2rem;font-weight:300;letter-spacing:.06em;
+  cursor:pointer;padding:10px 20px;color:var(--muted);transition:color .3s;
+}
+.mob-link:hover{color:var(--text)}
+
+/* ─── ANNOUNCE BAR ───────────────── */
+.ann{
+  margin-top:68px;background:var(--gold);color:var(--bg);
+  text-align:center;padding:9px 16px;
+  font-size:.7rem;letter-spacing:.14em;text-transform:uppercase;font-weight:500;
+}
+
+/* ─── HERO ───────────────────────── */
+.hero{position:relative;height:100svh;overflow:hidden;min-height:560px}
+.h-slide{
+  position:absolute;inset:0;opacity:0;
+  display:flex;align-items:flex-end;padding:72px 80px 96px;
+  transition:opacity 1.2s var(--ease);
+}
+.h-slide.on{opacity:1}
+.h-bg{
+  position:absolute;inset:0;background-size:cover;background-position:center;
+  transform:scale(1.06);transition:transform 9s var(--ease);
+}
+.h-slide.on .h-bg{transform:scale(1)}
+.h-ov{position:absolute;inset:0;background:linear-gradient(to top,rgba(28,28,30,.88) 0%,rgba(28,28,30,.15) 55%,transparent 100%)}
+.h-body{position:relative;z-index:1;max-width:560px}
+.h-tag{font-size:.65rem;letter-spacing:.24em;text-transform:uppercase;color:var(--gold);margin-bottom:14px;
+  opacity:0;transform:translateY(12px);transition:all .7s .3s var(--ease)}
+.h-slide.on .h-tag{opacity:1;transform:none}
+.h-hed{font-family:var(--serif);font-size:clamp(2.6rem,6vw,5.2rem);line-height:1.02;font-weight:300;margin-bottom:18px;
+  opacity:0;transform:translateY(16px);transition:all .7s .45s var(--ease)}
+.h-slide.on .h-hed{opacity:1;transform:none}
+.h-hed em{font-style:italic;color:var(--gold)}
+.h-sub{font-size:.88rem;color:var(--muted);max-width:380px;margin-bottom:36px;line-height:1.75;
+  opacity:0;transform:translateY(12px);transition:all .7s .6s var(--ease)}
+.h-slide.on .h-sub{opacity:1;transform:none}
+.h-cta{
+  display:inline-flex;align-items:center;gap:14px;
+  padding:13px 32px;border:1px solid rgba(201,169,110,.6);color:var(--gold);
+  font-size:.72rem;letter-spacing:.16em;text-transform:uppercase;cursor:pointer;
+  transition:all .4s var(--ease);
+  opacity:0;transition:all .7s .75s var(--ease),background .3s,color .3s;
+}
+.h-slide.on .h-cta{opacity:1}
+.h-cta:hover{background:var(--gold);color:var(--bg);border-color:var(--gold)}
+.h-dots{
+  position:absolute;bottom:36px;left:50%;transform:translateX(-50%);
+  display:flex;gap:10px;z-index:2;
+}
+.h-dot{width:20px;height:1px;background:var(--muted2);cursor:pointer;transition:all .4s}
+.h-dot.on{background:var(--gold);width:36px}
+.h-arrows{position:absolute;right:36px;bottom:36px;display:flex;gap:8px;z-index:2}
+.h-arr{
+  width:42px;height:42px;border:1px solid rgba(245,240,232,.15);
+  display:flex;align-items:center;justify-content:center;
+  font-size:.95rem;cursor:pointer;color:var(--muted);
+  transition:all .3s;
+}
+.h-arr:hover{border-color:var(--gold);color:var(--gold)}
+
+/* ─── MARQUEE ────────────────────── */
+.marquee-wrap{
+  overflow:hidden;border-top:1px solid var(--border);border-bottom:1px solid var(--border);
+  background:var(--bg2);padding:13px 0;
+}
+.marquee-inner{display:flex;white-space:nowrap;animation:mq 28s linear infinite}
+.mq-item{
+  display:inline-flex;align-items:center;gap:28px;padding:0 28px;
+  font-size:.68rem;letter-spacing:.2em;text-transform:uppercase;color:var(--muted);
+}
+.mq-dot{color:var(--gold);font-size:.45rem}
+@keyframes mq{from{transform:translateX(0)}to{transform:translateX(-50%)}}
+
+/* ─── TRUST STRIP ────────────────── */
+.trust{display:grid;grid-template-columns:repeat(4,1fr);border-bottom:1px solid var(--border2)}
+.trust-item{padding:28px 20px;text-align:center;border-right:1px solid var(--border2)}
+.trust-item:last-child{border-right:none}
+.trust-ico{font-size:1.3rem;color:var(--gold);margin-bottom:8px}
+.trust-ttl{font-size:.7rem;letter-spacing:.1em;text-transform:uppercase;margin-bottom:4px}
+.trust-sub{font-size:.78rem;color:var(--muted)}
+
+/* ─── SECTION ────────────────────── */
+section{padding:88px 80px}
+.sec-tag{font-size:.65rem;letter-spacing:.24em;text-transform:uppercase;color:var(--gold);margin-bottom:10px}
+.sec-title{font-family:var(--serif);font-size:clamp(1.9rem,4vw,3rem);font-weight:300;line-height:1.12;margin-bottom:14px}
+.sec-title em{font-style:italic}
+.sec-sub{font-size:.88rem;color:var(--muted);max-width:460px;line-height:1.8;margin-bottom:44px}
+.sec-hd{display:flex;justify-content:space-between;align-items:flex-end;margin-bottom:44px;flex-wrap:wrap;gap:14px}
+.see-all{
+  font-size:.7rem;letter-spacing:.12em;text-transform:uppercase;color:var(--gold);
+  cursor:pointer;border-bottom:1px solid var(--gold-dim);padding-bottom:2px;
+  transition:border-color .3s;
+}
+.see-all:hover{border-color:var(--gold)}
+
+/* ─── PRODUCT GRID ───────────────── */
+.pgrid{display:grid;grid-template-columns:repeat(4,1fr);gap:2px}
+.pcard{
+  background:var(--bg2);cursor:pointer;position:relative;
+  transition:transform .45s var(--ease);
+}
+.pcard:hover{transform:translateY(-3px)}
+.pcard-img{aspect-ratio:3/4;overflow:hidden;position:relative;background:var(--bg3)}
+.pcard-img img{
+  width:100%;height:100%;object-fit:cover;
+  transition:transform .8s var(--ease);
+}
+.pcard:hover .pcard-img img{transform:scale(1.06)}
+.pcard-img2{position:absolute;inset:0;opacity:0;transition:opacity .6s var(--ease)}
+.pcard-img2 img{width:100%;height:100%;object-fit:cover}
+.pcard:hover .pcard-img2{opacity:1}
+.pbadge{
+  position:absolute;top:12px;left:12px;
+  font-size:.58rem;letter-spacing:.1em;text-transform:uppercase;padding:4px 9px;font-weight:500;
+  background:var(--gold);color:var(--bg);
+}
+.pbadge.new{background:var(--text);color:var(--bg)}
+.pbadge.sale{background:var(--red);color:#fff}
+.pwish{
+  position:absolute;top:10px;right:10px;width:32px;height:32px;border-radius:50%;
+  background:rgba(28,28,30,.85);display:flex;align-items:center;justify-content:center;
+  font-size:.9rem;cursor:pointer;transition:all .3s;opacity:0;
+}
+.pcard:hover .pwish{opacity:1}
+.pwish.on{opacity:1;color:var(--gold)}
+.pcard:hover .pwish{opacity:1}
+.pquick{
+  position:absolute;bottom:0;left:0;right:0;
+  background:rgba(28,28,30,.95);backdrop-filter:blur(6px);
+  padding:13px;text-align:center;
+  font-size:.65rem;letter-spacing:.16em;text-transform:uppercase;color:var(--gold);
+  transform:translateY(100%);transition:transform .4s var(--ease);cursor:pointer;
+}
+.pcard:hover .pquick{transform:translateY(0)}
+.pquick:hover{background:var(--gold);color:var(--bg)}
+.pinfo{padding:14px}
+.pcat{font-size:.6rem;letter-spacing:.14em;text-transform:uppercase;color:var(--muted);margin-bottom:3px}
+.pname{font-family:var(--serif);font-size:1rem;margin-bottom:7px}
+.pprices{display:flex;align-items:baseline;gap:8px}
+.pprice{font-size:.85rem;color:var(--gold)}
+.porig{font-size:.78rem;color:var(--muted);text-decoration:line-through}
+
+/* ─── CATEGORIES ─────────────────── */
+.catgrid{display:grid;grid-template-columns:repeat(5,1fr);gap:2px}
+.catpanel{
+  position:relative;aspect-ratio:2/3;overflow:hidden;cursor:pointer;
+  display:flex;align-items:flex-end;padding:22px;
+}
+.catpanel:first-child{grid-column:span 2;aspect-ratio:auto}
+.cat-bg{position:absolute;inset:0;background-size:cover;background-position:center;transition:transform .8s var(--ease)}
+.catpanel:hover .cat-bg{transform:scale(1.07)}
+.cat-ov{position:absolute;inset:0;background:linear-gradient(to top,rgba(28,28,30,.78) 0%,transparent 65%)}
+.cat-body{position:relative;z-index:1}
+.cat-lbl{font-size:.6rem;letter-spacing:.18em;text-transform:uppercase;color:var(--gold);margin-bottom:5px}
+.cat-name{font-family:var(--serif);font-size:clamp(1.2rem,2.5vw,2rem);font-weight:300;margin-bottom:12px}
+.cat-cta{
+  font-size:.65rem;letter-spacing:.1em;text-transform:uppercase;color:var(--text);
+  border-bottom:1px solid rgba(245,240,232,.3);padding-bottom:1px;
+  display:inline-block;transition:all .3s;
+}
+.catpanel:hover .cat-cta{border-color:var(--gold);color:var(--gold)}
+
+/* ─── PHILOSOPHY ─────────────────── */
+.phil{background:var(--bg2)}
+.phil-inner{display:grid;grid-template-columns:1fr 420px;gap:80px;align-items:center}
+.stats{display:grid;grid-template-columns:1fr 1fr;gap:24px;margin-top:44px}
+.stat{border-top:1px solid var(--border);padding-top:16px}
+.stat-n{font-family:var(--serif);font-size:2.6rem;font-weight:300;color:var(--gold);line-height:1}
+.stat-l{font-size:.68rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-top:4px}
+.phil-img{aspect-ratio:4/5;background:var(--bg3);overflow:hidden;position:relative}
+.phil-img img{width:100%;height:100%;object-fit:cover}
+.phil-quote{
+  position:absolute;bottom:0;left:0;right:0;
+  background:rgba(28,28,30,.92);backdrop-filter:blur(8px);
+  padding:20px;border-top:1px solid var(--border);
+  font-family:var(--serif);font-size:1rem;font-style:italic;color:var(--muted);
+}
+
+/* ─── TESTIMONIALS ───────────────── */
+.testi-track{display:flex;gap:20px;overflow:hidden}
+.testi{
+  flex:0 0 calc(33.333% - 14px);background:var(--bg2);
+  border:1px solid var(--border2);padding:32px;
+}
+.t-stars{color:var(--gold);font-size:.75rem;letter-spacing:4px;margin-bottom:14px}
+.t-body{font-family:var(--serif);font-size:1.05rem;font-style:italic;color:var(--muted);line-height:1.8;margin-bottom:20px}
+.t-author{font-size:.72rem;letter-spacing:.1em;text-transform:uppercase}
+.t-loc{font-size:.72rem;color:var(--muted);margin-top:2px}
+
+/* ─── NEWSLETTER ─────────────────── */
+.nl{
+  text-align:center;
+  background:linear-gradient(135deg,var(--bg2),var(--bg3));
+  border-top:1px solid var(--border);border-bottom:1px solid var(--border);
+}
+.nl-form{
+  display:flex;max-width:420px;margin:0 auto;border:1px solid var(--border);
+}
+.nl-in{
+  flex:1;background:transparent;border:none;padding:13px 18px;
+  color:var(--text);font-size:.875rem;
+}
+.nl-in::placeholder{color:var(--muted)}
+.nl-in:focus{outline:none}
+.nl-btn{
+  padding:13px 22px;background:var(--gold);color:var(--bg);
+  font-size:.68rem;letter-spacing:.14em;text-transform:uppercase;font-weight:500;
+  white-space:nowrap;transition:opacity .3s;flex-shrink:0;cursor:pointer;border:none;
+}
+.nl-btn:hover{opacity:.85}
+.nl-msg{font-size:.72rem;color:var(--muted);margin-top:10px;min-height:20px;transition:color .3s}
+.nl-msg.ok{color:var(--green)}
+
+/* ─── FOOTER ─────────────────────── */
+footer{background:var(--bg3);border-top:1px solid var(--border2);padding:56px 80px 36px}
+.ft{display:grid;grid-template-columns:2fr 1fr 1fr 1fr;gap:44px;margin-bottom:44px}
+.ft-brand h3{font-family:var(--serif);font-size:1.7rem;font-weight:300;letter-spacing:.18em;margin-bottom:10px}
+.ft-brand p{font-size:.82rem;color:var(--muted);line-height:1.85;max-width:240px;margin-bottom:22px}
+.ft-soc{display:flex;gap:12px}
+.ft-s{
+  width:34px;height:34px;border:1px solid var(--border);
+  display:flex;align-items:center;justify-content:center;
+  font-size:.85rem;color:var(--muted);transition:all .3s;cursor:pointer;
+}
+.ft-s:hover{border-color:var(--gold);color:var(--gold)}
+.ft-col h4{font-size:.65rem;letter-spacing:.16em;text-transform:uppercase;color:var(--gold);margin-bottom:18px}
+.ft-col ul{list-style:none;display:flex;flex-direction:column;gap:9px}
+.ft-col li a{font-size:.82rem;color:var(--muted);transition:color .3s;cursor:pointer}
+.ft-col li a:hover{color:var(--text)}
+.ft-bot{
+  display:flex;justify-content:space-between;align-items:center;
+  padding-top:20px;border-top:1px solid var(--border2);
+  font-size:.72rem;color:var(--muted);flex-wrap:wrap;gap:10px;
+}
+.ft-bot a{color:var(--muted);transition:color .3s}
+.ft-bot a:hover{color:var(--gold)}
+
+/* ─── SHOP PAGE ──────────────────── */
+#pg-shop{display:none;padding-top:68px;min-height:100vh}
+.shop-hd{padding:44px 80px 36px;border-bottom:1px solid var(--border2)}
+.shop-hd h1{font-family:var(--serif);font-size:clamp(2.2rem,5vw,3.8rem);font-weight:300}
+.shop-hd p{color:var(--muted);font-size:.88rem;margin-top:6px}
+.shop-body{display:grid;grid-template-columns:250px 1fr}
+.shop-sidebar{
+  border-right:1px solid var(--border2);padding:28px 22px;
+  position:sticky;top:68px;height:calc(100vh - 68px);overflow-y:auto;
+}
+.sb-sec{margin-bottom:28px;padding-bottom:22px;border-bottom:1px solid var(--border2)}
+.sb-sec:last-child{border-bottom:none;margin-bottom:0}
+.sb-ttl{font-size:.65rem;letter-spacing:.16em;text-transform:uppercase;color:var(--gold);margin-bottom:13px}
+.sf-opt{display:flex;align-items:center;gap:9px;padding:5px 0;cursor:pointer;font-size:.82rem;color:var(--muted);transition:color .3s}
+.sf-opt:hover,.sf-opt.on{color:var(--text)}
+.sf-opt input[type=checkbox]{accent-color:var(--gold);width:13px;height:13px}
+.pr-row{display:flex;gap:10px;align-items:center}
+.pr-in{
+  flex:1;background:var(--bg2);border:1px solid var(--border);
+  border-radius:2px;padding:7px;color:var(--text);font-size:.78rem;text-align:center;
+}
+.pr-in:focus{outline:none;border-color:var(--gold)}
+.shop-main{padding:28px 36px}
+.shop-tb{display:flex;justify-content:space-between;align-items:center;margin-bottom:28px;flex-wrap:wrap;gap:12px}
+.af{display:flex;gap:8px;flex-wrap:wrap;align-items:center}
+.pill{
+  display:flex;align-items:center;gap:7px;
+  padding:5px 11px;background:var(--gold-dim);border:1px solid var(--border);
+  font-size:.68rem;letter-spacing:.06em;
+}
+.pill-x{color:var(--muted);cursor:pointer;transition:color .3s;font-size:.85rem}
+.pill-x:hover{color:var(--gold)}
+.pcount{font-size:.78rem;color:var(--muted)}
+.stb-row{display:flex;align-items:center;gap:12px}
+.sort-sel{
+  background:var(--bg2);border:1px solid var(--border);
+  padding:7px 14px;color:var(--text);font-size:.78rem;cursor:pointer;
+}
+.sort-sel:focus{outline:none;border-color:var(--gold)}
+.vt{display:flex;gap:3px}
+.vbtn{
+  width:30px;height:30px;border:1px solid var(--border);
+  display:flex;align-items:center;justify-content:center;
+  font-size:.8rem;color:var(--muted);cursor:pointer;transition:all .3s;
+}
+.vbtn.on,.vbtn:hover{border-color:var(--gold);color:var(--gold)}
+.sgrid{display:grid;grid-template-columns:repeat(3,1fr);gap:2px}
+.sgrid.lv{grid-template-columns:1fr}
+.sgrid.lv .pcard{display:grid;grid-template-columns:180px 1fr;align-items:start}
+.sgrid.lv .pcard-img{aspect-ratio:1}
+.rv-sec{padding:36px;border-top:1px solid var(--border2)}
+
+/* ─── PRODUCT MODAL ──────────────── */
+.mod-ov{
+  position:fixed;inset:0;background:rgba(0,0,0,.88);z-index:200;
+  display:flex;align-items:center;justify-content:center;padding:20px;
+  opacity:0;visibility:hidden;transition:all .4s var(--ease);
+}
+.mod-ov.open{opacity:1;visibility:visible}
+.pmod{
+  background:var(--bg);border:1px solid var(--border);
+  width:100%;max-width:960px;max-height:92vh;overflow-y:auto;
+  display:grid;grid-template-columns:1fr 1fr;
+  transform:translateY(20px);transition:transform .4s var(--ease);
+}
+.mod-ov.open .pmod{transform:none}
+.pmod-imgs{position:sticky;top:0;height:92vh;overflow:hidden;background:var(--bg2)}
+.pmod-img{width:100%;height:100%;object-fit:cover;transition:opacity .4s}
+.pmod-close{
+  position:absolute;top:16px;right:16px;z-index:1;
+  width:38px;height:38px;border-radius:50%;background:rgba(28,28,30,.88);
+  display:flex;align-items:center;justify-content:center;
+  font-size:1.1rem;color:var(--muted);cursor:pointer;transition:color .3s;
+}
+.pmod-close:hover{color:var(--text)}
+.pmod-info{padding:44px}
+.pmod-cat{font-size:.62rem;letter-spacing:.16em;text-transform:uppercase;color:var(--gold);margin-bottom:6px}
+.pmod-name{font-family:var(--serif);font-size:1.9rem;font-weight:300;margin-bottom:6px}
+.pmod-prices{display:flex;align-items:baseline;gap:10px;margin-bottom:20px}
+.pmod-price{font-size:1.2rem;color:var(--gold)}
+.pmod-orig{font-size:.95rem;color:var(--muted);text-decoration:line-through}
+.pmod-desc{font-size:.85rem;color:var(--muted);line-height:1.85;margin-bottom:28px}
+.pmod-lbl{font-size:.62rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);margin-bottom:9px}
+.sizes{display:flex;flex-wrap:wrap;gap:7px;margin-bottom:24px}
+.sbtn{
+  min-width:42px;height:42px;padding:0 8px;border:1px solid var(--border);
+  font-size:.78rem;color:var(--muted);transition:all .3s;
+  display:flex;align-items:center;justify-content:center;cursor:pointer;
+}
+.sbtn:hover,.sbtn.on{border-color:var(--gold);color:var(--gold)}
+.sbtn.oos{opacity:.3;cursor:not-allowed;text-decoration:line-through}
+.qty-w{display:flex;align-items:center;border:1px solid var(--border);width:fit-content;margin-bottom:24px}
+.qbtn{width:42px;height:42px;display:flex;align-items:center;justify-content:center;font-size:1.1rem;color:var(--muted);cursor:pointer;transition:color .3s}
+.qbtn:hover{color:var(--gold)}
+.qval{width:42px;text-align:center;font-size:.88rem;border-left:1px solid var(--border);border-right:1px solid var(--border);height:42px;display:flex;align-items:center;justify-content:center}
+.pmod-acts{display:flex;gap:10px;margin-bottom:28px}
+.add-btn{
+  flex:1;padding:13px;background:var(--gold);color:var(--bg);
+  font-size:.72rem;letter-spacing:.15em;text-transform:uppercase;font-weight:500;
+  transition:opacity .3s;cursor:pointer;
+}
+.add-btn:hover{opacity:.85}
+.wish-btn{
+  width:46px;height:46px;border:1px solid var(--border);
+  display:flex;align-items:center;justify-content:center;font-size:.95rem;
+  color:var(--muted);transition:all .3s;cursor:pointer;
+}
+.wish-btn:hover,.wish-btn.on{border-color:var(--gold);color:var(--gold)}
+.sg-link{font-size:.72rem;color:var(--gold);text-decoration:underline;cursor:pointer;display:inline-block;margin-bottom:20px}
+.rel-wrap{border-top:1px solid var(--border2);padding-top:20px}
+.rel-title{font-family:var(--serif);font-size:1rem;margin-bottom:14px}
+.rel-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:8px}
+.rel-card{cursor:pointer}
+.rel-card img{width:100%;aspect-ratio:3/4;object-fit:cover;background:var(--bg2);transition:opacity .3s}
+.rel-card:hover img{opacity:.8}
+.rel-name{font-size:.72rem;margin-top:5px;white-space:nowrap;overflow:hidden;text-overflow:ellipsis}
+.rel-price{font-size:.72rem;color:var(--gold);margin-top:1px}
+
+/* ─── CART DRAWER ────────────────── */
+.cart-ov{
+  position:fixed;inset:0;background:rgba(0,0,0,.65);z-index:300;
+  opacity:0;visibility:hidden;transition:all .4s;
+}
+.cart-ov.open{opacity:1;visibility:visible}
+.cart{
+  position:fixed;top:0;right:0;bottom:0;width:400px;max-width:96vw;
+  background:var(--bg);border-left:1px solid var(--border);z-index:301;
+  display:flex;flex-direction:column;
+  transform:translateX(100%);transition:transform .5s var(--ease-out);
+}
+.cart-ov.open .cart{transform:none}
+.cart-hd{display:flex;justify-content:space-between;align-items:center;padding:22px;border-bottom:1px solid var(--border2)}
+.cart-hd h3{font-family:var(--serif);font-size:1.35rem;font-weight:300}
+.cart-close{font-size:1.2rem;color:var(--muted);cursor:pointer;transition:color .3s}
+.cart-close:hover{color:var(--text)}
+.cart-items{flex:1;overflow-y:auto;padding:20px}
+.cart-empty{text-align:center;padding:56px 20px;color:var(--muted)}
+.ce-ico{font-size:2.8rem;margin-bottom:14px;opacity:.4}
+.ce-ttl{font-family:var(--serif);font-size:1.2rem;color:var(--text);margin-bottom:6px}
+.ci{display:grid;grid-template-columns:76px 1fr;gap:14px;margin-bottom:18px;padding-bottom:18px;border-bottom:1px solid var(--border2)}
+.ci:last-child{border-bottom:none}
+.ci-img{width:76px;height:96px;object-fit:cover;background:var(--bg2)}
+.ci-name{font-family:var(--serif);font-size:.95rem;margin-bottom:3px}
+.ci-meta{font-size:.72rem;color:var(--muted);margin-bottom:8px}
+.ci-row{display:flex;align-items:center;justify-content:space-between}
+.ci-price{font-size:.85rem;color:var(--gold)}
+.ci-qty{display:flex;align-items:center;gap:9px;font-size:.82rem}
+.ci-qbtn{color:var(--muted);cursor:pointer;transition:color .3s;font-size:.95rem}
+.ci-qbtn:hover{color:var(--gold)}
+.ci-rm{font-size:.7rem;color:var(--muted);cursor:pointer;margin-top:5px;display:inline-block;transition:color .3s}
+.ci-rm:hover{color:var(--gold)}
+.cart-cp{padding:0 20px 14px}
+.cp-row{display:flex;border:1px solid var(--border)}
+.cp-in{flex:1;background:transparent;border:none;padding:9px 13px;color:var(--text);font-size:.82rem}
+.cp-in:focus{outline:none}
+.cp-btn{padding:9px 14px;background:var(--gold-dim);color:var(--gold);font-size:.68rem;letter-spacing:.1em;text-transform:uppercase;border-left:1px solid var(--border);cursor:pointer;transition:all .3s}
+.cp-btn:hover{background:var(--gold);color:var(--bg)}
+.cp-msg{font-size:.72rem;margin-top:6px;min-height:16px}
+.cp-msg.ok{color:var(--green)}
+.cp-msg.err{color:var(--red)}
+.cart-ft{padding:20px;border-top:1px solid var(--border2)}
+.cart-row{display:flex;justify-content:space-between;font-size:.85rem;margin-bottom:7px}
+.cart-row-l{color:var(--muted)}
+.cart-row-v{color:var(--gold)}
+.disc-row{display:flex;justify-content:space-between;font-size:.8rem;color:var(--green);margin-bottom:14px}
+.co-btn{
+  width:100%;padding:14px;background:var(--gold);color:var(--bg);
+  font-size:.78rem;letter-spacing:.15em;text-transform:uppercase;font-weight:500;
+  cursor:pointer;transition:opacity .3s;margin-bottom:9px;
+}
+.co-btn:hover{opacity:.85}
+.cont-btn{
+  width:100%;padding:13px;border:1px solid var(--border);
+  font-size:.78rem;letter-spacing:.12em;text-transform:uppercase;color:var(--muted);
+  cursor:pointer;transition:all .3s;
+}
+.cont-btn:hover{border-color:var(--gold);color:var(--gold)}
+
+/* ─── CHECKOUT ───────────────────── */
+#pg-co{display:none;padding-top:68px}
+.co-wrap{display:grid;grid-template-columns:1fr 380px;min-height:calc(100vh - 68px)}
+.co-main{padding:44px 60px;border-right:1px solid var(--border2)}
+.co-step{display:none}
+.co-step.on{display:block}
+.co-title{font-family:var(--serif);font-size:1.9rem;font-weight:300;margin-bottom:28px}
+.fg{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+.fg.full{grid-template-columns:1fr}
+.fld{margin-bottom:14px}
+.fl{display:block;font-size:.65rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin-bottom:7px}
+.fi{
+  width:100%;background:var(--bg2);border:1px solid var(--border);
+  border-radius:2px;padding:11px 15px;color:var(--text);font-size:.875rem;
+  transition:border-color .3s;
+}
+.fi:focus{outline:none;border-color:var(--gold)}
+.fi::placeholder{color:var(--muted)}
+.fi-sel{-webkit-appearance:none}
+.pay-opt{
+  border:1px solid var(--border);padding:14px 18px;margin-bottom:10px;cursor:pointer;
+  display:flex;align-items:center;gap:14px;transition:border-color .3s;
+}
+.pay-opt:hover,.pay-opt.on{border-color:var(--gold)}
+.pay-radio{width:17px;height:17px;border:2px solid var(--border);border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;transition:border-color .3s}
+.pay-opt.on .pay-radio{border-color:var(--gold)}
+.pay-dot{width:7px;height:7px;border-radius:50%;background:var(--gold);opacity:0;transition:opacity .3s}
+.pay-opt.on .pay-dot{opacity:1}
+.pay-lbl{font-size:.85rem}
+.pay-sub{font-size:.72rem;color:var(--muted)}
+.bank-box{background:var(--bg2);border:1px solid var(--border);padding:20px;margin-top:16px}
+.bank-box h4{font-family:var(--serif);font-size:1rem;font-weight:300;margin-bottom:14px}
+.brow{display:flex;justify-content:space-between;padding:7px 0;border-bottom:1px solid var(--border2);font-size:.82rem}
+.brow:last-child{border-bottom:none}
+.brow span:first-child{color:var(--muted)}
+.bref{font-family:monospace;color:var(--gold);font-size:.85rem}
+.step-btn{
+  padding:13px 36px;background:var(--gold);color:var(--bg);
+  font-size:.75rem;letter-spacing:.15em;text-transform:uppercase;font-weight:500;
+  cursor:pointer;transition:opacity .3s;margin-top:22px;display:inline-block;
+}
+.step-btn:hover{opacity:.85}
+.back-btn{padding:13px 20px;font-size:.75rem;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);cursor:pointer;transition:color .3s;margin-top:22px;margin-right:10px;display:inline-block}
+.back-btn:hover{color:var(--text)}
+.co-side{padding:44px 36px;background:var(--bg2)}
+.cos-title{font-family:var(--serif);font-size:1.2rem;margin-bottom:22px}
+.oi{display:grid;grid-template-columns:52px 1fr auto;gap:10px;margin-bottom:14px;align-items:start}
+.oi-img{width:52px;height:65px;object-fit:cover;background:var(--bg3)}
+.oi-name{font-family:var(--serif);font-size:.88rem}
+.oi-meta{font-size:.68rem;color:var(--muted);margin-top:2px}
+.oi-price{font-size:.82rem;color:var(--gold)}
+.co-divider{border:none;border-top:1px solid var(--border2);margin:18px 0}
+.co-row{display:flex;justify-content:space-between;font-size:.82rem;margin-bottom:7px}
+.co-row-l{color:var(--muted)}
+.co-tot{display:flex;justify-content:space-between;font-size:.95rem;margin-top:10px;padding-top:10px;border-top:1px solid var(--border2)}
+.co-tot-v{color:var(--gold);font-size:1.05rem}
+
+/* ─── CONFIRMATION ───────────────── */
+#pg-conf{display:none;padding-top:68px;text-align:center}
+.conf-inner{max-width:580px;margin:0 auto;padding:72px 24px}
+.conf-ico{font-size:2.8rem;color:var(--gold);margin-bottom:22px}
+.conf-title{font-family:var(--serif);font-size:2.4rem;font-weight:300;margin-bottom:10px}
+.conf-sub{color:var(--muted);margin-bottom:44px}
+.conf-num{font-family:var(--serif);font-size:1.4rem;color:var(--gold);margin-bottom:28px}
+.conf-items{text-align:left;border:1px solid var(--border);padding:20px;margin-bottom:28px}
+.conf-item{display:flex;justify-content:space-between;padding:9px 0;border-bottom:1px solid var(--border2);font-size:.85rem}
+.conf-item:last-child{border-bottom:none}
+.conf-tot{display:flex;justify-content:space-between;padding-top:14px;font-family:var(--serif);font-size:1rem}
+.conf-tot span:last-child{color:var(--gold)}
+.conf-bank{background:var(--bg2);border:1px solid var(--border);padding:22px;margin-bottom:22px;text-align:left}
+.conf-bank h4{font-family:var(--serif);font-weight:300;margin-bottom:12px}
+.conf-cta{
+  display:inline-block;padding:13px 36px;background:var(--gold);color:var(--bg);
+  font-size:.75rem;letter-spacing:.15em;text-transform:uppercase;font-weight:500;cursor:pointer;transition:opacity .3s;
+}
+.conf-cta:hover{opacity:.85}
+
+/* ─── TOAST ──────────────────────── */
+.toast{
+  position:fixed;bottom:28px;left:50%;transform:translateX(-50%) translateY(14px);
+  background:var(--bg2);border:1px solid var(--border);
+  padding:11px 22px;font-size:.82rem;z-index:600;
+  opacity:0;transition:all .4s var(--ease);white-space:nowrap;
+  display:flex;align-items:center;gap:9px;pointer-events:none;
+}
+.toast.show{opacity:1;transform:translateX(-50%) translateY(0)}
+.toast-ico{color:var(--gold)}
+
+/* ─── SIZE GUIDE MODAL ───────────── */
+.sg-modal{max-width:560px}
+.sg-table{width:100%;border-collapse:collapse;font-size:.82rem}
+.sg-table th{padding:8px 12px;text-align:left;background:var(--bg3);font-size:.65rem;letter-spacing:.1em;text-transform:uppercase;color:var(--gold);border-bottom:1px solid var(--border)}
+.sg-table td{padding:8px 12px;border-bottom:1px solid var(--border2);color:var(--muted)}
+.sg-table tr:last-child td{border-bottom:none}
+
+/* ─── RESPONSIVE ─────────────────── */
+@media(max-width:1100px){.pgrid{grid-template-columns:repeat(3,1fr)}.ft{grid-template-columns:1fr 1fr}}
+@media(max-width:900px){
+  nav{padding:0 22px}
+  .nav-links{display:none}
+  .burger{display:flex}
+  section{padding:56px 22px}
+  .h-slide{padding:40px 22px 72px}
+  .pgrid{grid-template-columns:repeat(2,1fr)}
+  .catgrid{grid-template-columns:repeat(2,1fr)}
+  .catpanel:first-child{grid-column:span 2}
+  .trust{grid-template-columns:repeat(2,1fr)}
+  .phil-inner{grid-template-columns:1fr}.phil-img{display:none}
+  .pmod{grid-template-columns:1fr;max-height:95vh}
+  .pmod-imgs{position:relative;height:320px}
+  .co-wrap{grid-template-columns:1fr}.co-side{display:none}
+  .shop-body{grid-template-columns:1fr}.shop-sidebar{display:none}
+  .sgrid{grid-template-columns:repeat(2,1fr)}
+  .shop-hd{padding:36px 22px}
+  .shop-main{padding:20px 22px}
+}
+@media(max-width:600px){
+  .pgrid,.sgrid{grid-template-columns:repeat(2,1fr)}
+  .catgrid{grid-template-columns:1fr}.catpanel:first-child{grid-column:span 1}
+  footer{padding:44px 22px 28px}.ft{grid-template-columns:1fr}
+  .testi-track .testi{flex-basis:calc(100% - 16px)}
+  .fg{grid-template-columns:1fr}
+}
+</style>
+</head>
+<body>
+
+<!-- LOADER -->
+<div id="loader">
+  <div class="ld-logo">TIZCO</div>
+  <div class="ld-tagline">Refined Men's Fashion</div>
+  <div class="ld-bar"><div class="ld-fill"></div></div>
+</div>
+
+<!-- NAV -->
+<nav id="main-nav">
+  <div class="nav-logo" onclick="goto('home')">TIZCO</div>
+  <div class="nav-links">
+    <span class="nav-link on" onclick="goto('home')">Home</span>
+    <span class="nav-link" onclick="gotoShop()">Shop</span>
+    <span class="nav-link" onclick="gotoShop('Clothing')">Clothing</span>
+    <span class="nav-link" onclick="gotoShop('Shoes')">Shoes</span>
+    <span class="nav-link" onclick="gotoShop('Bags')">Bags</span>
+    <span class="nav-link" onclick="gotoShop('Accessories')">Accessories</span>
+  </div>
+  <div class="nav-icons">
+    <span class="ni" onclick="toast('Search coming soon ✦')">🔍</span>
+    <span class="ni" onclick="toast('Sign in to view your account')">👤</span>
+    <span class="ni" onclick="toast('Your wishlist is empty — add items first')">♡</span>
+    <span class="ni" onclick="openCart()" style="position:relative">
+      🛍️<span class="ni-badge" id="cart-badge" style="display:none">0</span>
+    </span>
+    <div class="burger" id="burger" onclick="toggleMob()">
+      <span></span><span></span><span></span>
+    </div>
+  </div>
+</nav>
+
+<!-- MOB NAV -->
+<div class="mob-nav" id="mob-nav">
+  <span class="mob-link" onclick="goto('home');toggleMob()">Home</span>
+  <span class="mob-link" onclick="gotoShop();toggleMob()">Shop</span>
+  <span class="mob-link" onclick="gotoShop('Clothing');toggleMob()">Clothing</span>
+  <span class="mob-link" onclick="gotoShop('Shoes');toggleMob()">Shoes</span>
+  <span class="mob-link" onclick="gotoShop('Bags');toggleMob()">Bags</span>
+  <span class="mob-link" onclick="gotoShop('Accessories');toggleMob()">Accessories</span>
+</div>
+
+<!-- ══ HOME ══ -->
+<div id="pg-home">
+
+  <div class="ann">Free shipping on orders over ₦150,000 &nbsp;·&nbsp; Use code TIZCO10 for 10% off</div>
+
+  <!-- HERO -->
+  <div class="hero">
+    <div class="h-slide on" id="sl-0">
+      <div class="h-bg" style="background-image:url('https://images.unsplash.com/photo-1617127365659-c47fa864d8bc?w=1600&q=85&auto=format&fit=crop')"></div>
+      <div class="h-ov"></div>
+      <div class="h-body">
+        <div class="h-tag">New Collection — 2025</div>
+        <h1 class="h-hed">Dressed for <em>quiet</em><br>authority</h1>
+        <p class="h-sub">Refined menswear for those who understand that real luxury whispers.</p>
+        <button class="h-cta" onclick="gotoShop()">Explore Collection →</button>
+      </div>
+    </div>
+    <div class="h-slide" id="sl-1">
+      <div class="h-bg" style="background-image:url('https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=1600&q=85&auto=format&fit=crop')"></div>
+      <div class="h-ov"></div>
+      <div class="h-body">
+        <div class="h-tag">Footwear Edit</div>
+        <h1 class="h-hed">Every step,<br><em>intentional</em></h1>
+        <p class="h-sub">Premium leather shoes crafted for the man who moves with purpose.</p>
+        <button class="h-cta" onclick="gotoShop('Shoes')">Shop Footwear →</button>
+      </div>
+    </div>
+    <div class="h-slide" id="sl-2">
+      <div class="h-bg" style="background-image:url('https://images.unsplash.com/photo-1548036328-c9fa89d128fa?w=1600&q=85&auto=format&fit=crop')"></div>
+      <div class="h-ov"></div>
+      <div class="h-body">
+        <div class="h-tag">Leather Goods</div>
+        <h1 class="h-hed">Carry what<br>matters, <em>beautifully</em></h1>
+        <p class="h-sub">Full-grain leather bags and accessories — built to last a lifetime.</p>
+        <button class="h-cta" onclick="gotoShop('Bags')">Shop Bags →</button>
+      </div>
+    </div>
+    <div class="h-dots">
+      <div class="h-dot on" onclick="goSlide(0)"></div>
+      <div class="h-dot" onclick="goSlide(1)"></div>
+      <div class="h-dot" onclick="goSlide(2)"></div>
+    </div>
+    <div class="h-arrows">
+      <div class="h-arr" onclick="prevSlide()">←</div>
+      <div class="h-arr" onclick="nextSlide()">→</div>
+    </div>
+  </div>
+
+  <!-- MARQUEE -->
+  <div class="marquee-wrap">
+    <div class="marquee-inner">
+      <div class="mq-item">Premium Menswear <span class="mq-dot">◆</span></div>
+      <div class="mq-item">Full-Grain Leather <span class="mq-dot">◆</span></div>
+      <div class="mq-item">Free Shipping Over ₦150K <span class="mq-dot">◆</span></div>
+      <div class="mq-item">30-Day Returns <span class="mq-dot">◆</span></div>
+      <div class="mq-item">Secure Payments <span class="mq-dot">◆</span></div>
+      <div class="mq-item">Quality Guaranteed <span class="mq-dot">◆</span></div>
+      <div class="mq-item">New Arrivals Weekly <span class="mq-dot">◆</span></div>
+      <div class="mq-item">Premium Menswear <span class="mq-dot">◆</span></div>
+      <div class="mq-item">Full-Grain Leather <span class="mq-dot">◆</span></div>
+      <div class="mq-item">Free Shipping Over ₦150K <span class="mq-dot">◆</span></div>
+      <div class="mq-item">30-Day Returns <span class="mq-dot">◆</span></div>
+      <div class="mq-item">Secure Payments <span class="mq-dot">◆</span></div>
+      <div class="mq-item">Quality Guaranteed <span class="mq-dot">◆</span></div>
+      <div class="mq-item">New Arrivals Weekly <span class="mq-dot">◆</span></div>
+    </div>
+  </div>
+
+  <!-- TRUST -->
+  <div class="trust">
+    <div class="trust-item"><div class="trust-ico">🚚</div><div class="trust-ttl">Free Shipping</div><div class="trust-sub">On orders above ₦150,000</div></div>
+    <div class="trust-item"><div class="trust-ico">↩️</div><div class="trust-ttl">30-Day Returns</div><div class="trust-sub">Hassle-free returns policy</div></div>
+    <div class="trust-item"><div class="trust-ico">🔒</div><div class="trust-ttl">Secure Payments</div><div class="trust-sub">Paystack & bank transfer</div></div>
+    <div class="trust-item"><div class="trust-ico">✦</div><div class="trust-ttl">Quality Guarantee</div><div class="trust-sub">Curated premium goods</div></div>
+  </div>
+
+  <!-- FEATURED -->
+  <section>
+    <div class="sec-hd">
+      <div>
+        <div class="sec-tag">Featured</div>
+        <h2 class="sec-title">The <em>Edit</em></h2>
+      </div>
+      <span class="see-all" onclick="gotoShop()">View All →</span>
+    </div>
+    <div class="pgrid" id="featured-grid"></div>
+  </section>
+
+  <!-- CATEGORIES -->
+  <section style="padding-top:0">
+    <div class="sec-tag" style="margin-bottom:10px">Explore</div>
+    <h2 class="sec-title" style="margin-bottom:44px">Shop by <em>Category</em></h2>
+    <div class="catgrid">
+      <div class="catpanel" onclick="gotoShop('Clothing')" style="min-height:400px">
+        <div class="cat-bg" style="background-image:url('https://images.unsplash.com/photo-1593030761757-71fae45fa0e7?w=900&q=80&auto=format&fit=crop')"></div>
+        <div class="cat-ov"></div>
+        <div class="cat-body"><div class="cat-lbl">01 — Clothing</div><h3 class="cat-name">Shirts, Suits<br>& Knitwear</h3><span class="cat-cta">Shop Now →</span></div>
+      </div>
+      <div class="catpanel" onclick="gotoShop('Shoes')">
+        <div class="cat-bg" style="background-image:url('https://images.unsplash.com/photo-1549298916-b41d501d3772?w=700&q=80&auto=format&fit=crop')"></div>
+        <div class="cat-ov"></div>
+        <div class="cat-body"><div class="cat-lbl">02 — Footwear</div><h3 class="cat-name">Shoes</h3><span class="cat-cta">Shop Now →</span></div>
+      </div>
+      <div class="catpanel" onclick="gotoShop('Bags')">
+        <div class="cat-bg" style="background-image:url('https://images.unsplash.com/photo-1548036328-c9fa89d128fa?w=700&q=80&auto=format&fit=crop')"></div>
+        <div class="cat-ov"></div>
+        <div class="cat-body"><div class="cat-lbl">03 — Leather Goods</div><h3 class="cat-name">Bags &<br>Briefcases</h3><span class="cat-cta">Shop Now →</span></div>
+      </div>
+      <div class="catpanel" onclick="gotoShop('Belts')">
+        <div class="cat-bg" style="background-image:url('https://images.unsplash.com/photo-1624222247344-550fb60583dc?w=700&q=80&auto=format&fit=crop')"></div>
+        <div class="cat-ov"></div>
+        <div class="cat-body"><div class="cat-lbl">04 — Belts</div><h3 class="cat-name">Belts</h3><span class="cat-cta">Shop Now →</span></div>
+      </div>
+      <div class="catpanel" onclick="gotoShop('Accessories')">
+        <div class="cat-bg" style="background-image:url('https://images.unsplash.com/photo-1523170335258-f5ed11844a49?w=700&q=80&auto=format&fit=crop')"></div>
+        <div class="cat-ov"></div>
+        <div class="cat-body"><div class="cat-lbl">05 — Accessories</div><h3 class="cat-name">Watches &<br>Wallets</h3><span class="cat-cta">Shop Now →</span></div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PHILOSOPHY -->
+  <section class="phil">
+    <div class="phil-inner">
+      <div>
+        <div class="sec-tag">Our Philosophy</div>
+        <h2 class="sec-title">Luxury is a<br>matter of <em>intent</em></h2>
+        <p class="sec-sub" style="margin-bottom:0">TIZCO was built on a single conviction: that a man who dresses with intention commands any room. Every piece in our collection is chosen to last, to age beautifully, and to make a quiet point. We don't follow trends. We set a standard.</p>
+        <div class="stats">
+          <div class="stat"><div class="stat-n">500+</div><div class="stat-l">Curated Products</div></div>
+          <div class="stat"><div class="stat-n">12K+</div><div class="stat-l">Satisfied Customers</div></div>
+          <div class="stat"><div class="stat-n">4.9★</div><div class="stat-l">Average Rating</div></div>
+          <div class="stat"><div class="stat-n">5yr</div><div class="stat-l">Quality Guarantee</div></div>
+        </div>
+      </div>
+      <div class="phil-img">
+        <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=600&q=80&auto=format&fit=crop" alt="TIZCO">
+        <div class="phil-quote">"Quality is remembered long after the price is forgotten."</div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TESTIMONIALS -->
+  <section>
+    <div class="sec-hd"><div><div class="sec-tag">Reviews</div><h2 class="sec-title">What our clients <em>say</em></h2></div></div>
+    <div class="testi-track">
+      <div class="testi"><div class="t-stars">★★★★★</div><p class="t-body">"The quality of the suit I ordered exceeded every expectation. The fabric, the fit, the packaging — worth every naira."</p><div class="t-author">Chukwuemeka A.</div><div class="t-loc">Lagos, Nigeria</div></div>
+      <div class="testi"><div class="t-stars">★★★★★</div><p class="t-body">"My leather bag has aged beautifully over two years. Develops a rich patina that only gets better. This is what real luxury means."</p><div class="t-author">Olumide B.</div><div class="t-loc">Abuja, Nigeria</div></div>
+      <div class="testi"><div class="t-stars">★★★★★</div><p class="t-body">"Fast delivery, impeccable packaging, and the loafers fit perfectly. Already placed a second order. Won't shop anywhere else."</p><div class="t-author">Emmanuel K.</div><div class="t-loc">Port Harcourt, Nigeria</div></div>
+    </div>
+  </section>
+
+  <!-- NEWSLETTER -->
+  <section class="nl">
+    <div class="sec-tag">Membership</div>
+    <h2 class="sec-title">Join the <em>Inner Circle</em></h2>
+    <p style="color:var(--muted);max-width:400px;margin:0 auto 28px;font-size:.88rem">Be first to access new arrivals, exclusive offers, and style counsel from the TIZCO editorial team.</p>
+    <div class="nl-form">
+      <input class="nl-in" type="email" id="nl-email" placeholder="Your email address">
+      <button class="nl-btn" onclick="doSubscribe()">Subscribe</button>
+    </div>
+    <p class="nl-msg" id="nl-msg"></p>
+  </section>
+
+  <!-- FOOTER -->
+  <footer>
+    <div class="ft">
+      <div class="ft-brand">
+        <h3>TIZCO</h3>
+        <p>Premium men's fashion at the intersection of modern masculinity and refined taste.</p>
+        <div class="ft-soc">
+          <div class="ft-s" onclick="toast('Follow us on Instagram @tizco')">📷</div>
+          <div class="ft-s" onclick="toast('Follow us @tizco')">𝕏</div>
+          <div class="ft-s" onclick="toast('Like us on Facebook')">f</div>
+        </div>
+      </div>
+      <div class="ft-col"><h4>Shop</h4><ul>
+        <li><a onclick="gotoShop('Clothing')">Clothing</a></li>
+        <li><a onclick="gotoShop('Shoes')">Shoes</a></li>
+        <li><a onclick="gotoShop('Bags')">Bags</a></li>
+        <li><a onclick="gotoShop('Belts')">Belts</a></li>
+        <li><a onclick="gotoShop('Accessories')">Accessories</a></li>
+      </ul></div>
+      <div class="ft-col"><h4>Help</h4><ul>
+        <li><a onclick="openSizeGuide()">Sizing Guide</a></li>
+        <li><a onclick="toast('Free shipping over ₦150,000')">Shipping Policy</a></li>
+        <li><a onclick="toast('30-day hassle-free returns')">Returns</a></li>
+        <li><a onclick="toast('Track your order via email confirmation')">Track Order</a></li>
+        <li><a onclick="toast('Email us: hello@tizco.com')">Contact Us</a></li>
+      </ul></div>
+      <div class="ft-col"><h4>Company</h4><ul>
+        <li><a onclick="toast('TIZCO — Refined Men\'s Fashion')">About TIZCO</a></li>
+        <li><a onclick="toast('Careers coming soon')">Careers</a></li>
+        <li><a onclick="toast('Press inquiries: press@tizco.com')">Press</a></li>
+        <li><a onclick="toast('Privacy Policy')">Privacy Policy</a></li>
+        <li><a onclick="toast('Terms of Service')">Terms</a></li>
+      </ul></div>
+    </div>
+    <div class="ft-bot">
+      <span>© 2025 TIZCO. All rights reserved.</span>
+      <div style="display:flex;gap:14px"><a>Privacy</a><a>Terms</a><a>Cookies</a></div>
+    </div>
+  </footer>
+
+</div><!-- /pg-home -->
+
+<!-- ══ SHOP PAGE ══ -->
+<div id="pg-shop">
+  <div class="shop-hd">
+    <h1 id="shop-title">All Products</h1>
+    <p id="shop-sub">Curated menswear, footwear and accessories</p>
+  </div>
+  <div class="shop-body">
+    <div class="shop-sidebar">
+      <div class="sb-sec">
+        <div class="sb-ttl">Category</div>
+        <div id="cat-filters">
+          <label class="sf-opt"><input type="checkbox" value="Clothing" onchange="applyFilters()"> Clothing</label>
+          <label class="sf-opt"><input type="checkbox" value="Shoes" onchange="applyFilters()"> Shoes</label>
+          <label class="sf-opt"><input type="checkbox" value="Bags" onchange="applyFilters()"> Bags</label>
+          <label class="sf-opt"><input type="checkbox" value="Belts" onchange="applyFilters()"> Belts</label>
+          <label class="sf-opt"><input type="checkbox" value="Accessories" onchange="applyFilters()"> Accessories</label>
+        </div>
+      </div>
+      <div class="sb-sec">
+        <div class="sb-ttl">Price Range</div>
+        <div class="pr-row">
+          <input class="pr-in" type="number" id="pr-min" placeholder="Min ₦" onchange="applyFilters()">
+          <span style="color:var(--muted)">—</span>
+          <input class="pr-in" type="number" id="pr-max" placeholder="Max ₦" onchange="applyFilters()">
+        </div>
+      </div>
+      <div class="sb-sec">
+        <div class="sb-ttl">Sort</div>
+        <select class="sort-sel" id="sort-sel" onchange="applyFilters()" style="width:100%;background:var(--bg2);border:1px solid var(--border);padding:8px 12px;color:var(--text)">
+          <option value="newest">Newest</option>
+          <option value="price-asc">Price: Low → High</option>
+          <option value="price-desc">Price: High → Low</option>
+        </select>
+      </div>
+    </div>
+    <div class="shop-main">
+      <div class="shop-tb">
+        <div>
+          <div class="af" id="active-filters"></div>
+          <div class="pcount" id="pcount" style="margin-top:6px"></div>
+        </div>
+        <div class="stb-row">
+          <div class="vt">
+            <button class="vbtn on" id="vbtn-g" onclick="setView('g')">⊞</button>
+            <button class="vbtn" id="vbtn-l" onclick="setView('l')">☰</button>
+          </div>
+        </div>
+      </div>
+      <div class="sgrid" id="shop-grid"></div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ CHECKOUT ══ -->
+<div id="pg-co">
+  <div class="co-wrap">
+    <div class="co-main">
+      <!-- Step 1 -->
+      <div class="co-step on" id="co-1">
+        <h2 class="co-title">Contact <em style="font-family:var(--serif);font-style:italic">Information</em></h2>
+        <div class="fg">
+          <div class="fld"><label class="fl">First Name</label><input class="fi" id="c-first" placeholder="Chukwuemeka"></div>
+          <div class="fld"><label class="fl">Last Name</label><input class="fi" id="c-last" placeholder="Adeleke"></div>
+        </div>
+        <div class="fld"><label class="fl">Email</label><input class="fi" type="email" id="c-email" placeholder="you@example.com"></div>
+        <div class="fld"><label class="fl">Phone</label><input class="fi" type="tel" id="c-phone" placeholder="+234 800 000 0000"></div>
+        <button class="step-btn" onclick="coStep(2)">Continue to Shipping →</button>
+      </div>
+      <!-- Step 2 -->
+      <div class="co-step" id="co-2">
+        <h2 class="co-title">Shipping <em style="font-family:var(--serif);font-style:italic">Address</em></h2>
+        <div class="fld"><label class="fl">Street Address</label><input class="fi" id="s-str" placeholder="14 Victoria Island"></div>
+        <div class="fg">
+          <div class="fld"><label class="fl">City</label><input class="fi" id="s-city" placeholder="Lagos"></div>
+          <div class="fld"><label class="fl">State</label><input class="fi" id="s-state" placeholder="Lagos State"></div>
+        </div>
+        <div class="fg">
+          <div class="fld"><label class="fl">Postal Code</label><input class="fi" id="s-post" placeholder="101001"></div>
+          <div class="fld"><label class="fl">Country</label>
+            <select class="fi fi-sel" id="s-country">
+              <option>Nigeria</option><option>Ghana</option><option>Kenya</option>
+              <option>South Africa</option><option>United Kingdom</option><option>United States</option>
+            </select>
+          </div>
+        </div>
+        <button class="back-btn" onclick="coStep(1)">← Back</button>
+        <button class="step-btn" onclick="coStep(3)">Continue to Payment →</button>
+      </div>
+      <!-- Step 3 -->
+      <div class="co-step" id="co-3">
+        <h2 class="co-title">Payment <em style="font-family:var(--serif);font-style:italic">Method</em></h2>
+        <div class="pay-opt on" id="pay-card" onclick="selPay('card')">
+          <div class="pay-radio"><div class="pay-dot"></div></div>
+          <div><div class="pay-lbl">Pay with Card (Paystack)</div><div class="pay-sub">Visa, Mastercard, Verve, Bank Transfer</div></div>
+        </div>
+        <div class="pay-opt" id="pay-bank" onclick="selPay('bank')">
+          <div class="pay-radio"><div class="pay-dot"></div></div>
+          <div><div class="pay-lbl">Bank Transfer</div><div class="pay-sub">Transfer directly to our account</div></div>
+        </div>
+        <div class="bank-box" id="bank-box" style="display:none">
+          <h4>Bank Account Details</h4>
+          <div class="brow"><span>Bank Name</span><span>First Bank of Nigeria</span></div>
+          <div class="brow"><span>Account Name</span><span>TIZCO Store Ltd</span></div>
+          <div class="brow"><span>Account Number</span><span>3012345678</span></div>
+          <div class="brow"><span>Reference</span><span class="bref" id="co-ref"></span></div>
+          <div class="brow"><span>Amount</span><span id="co-bank-amt" style="color:var(--gold)"></span></div>
+        </div>
+        <button class="back-btn" onclick="coStep(2)">← Back</button>
+        <button class="step-btn" onclick="placeOrder()">Place Order →</button>
+      </div>
+    </div>
+    <div class="co-side">
+      <div class="cos-title">Order Summary</div>
+      <div id="co-items"></div>
+      <hr class="co-divider">
+      <div class="co-row"><span class="co-row-l">Subtotal</span><span id="co-sub"></span></div>
+      <div class="co-row" id="co-disc-row" style="color:var(--green);display:none"><span>Discount</span><span id="co-disc"></span></div>
+      <div class="co-row"><span class="co-row-l">Shipping</span><span id="co-ship"></span></div>
+      <div class="co-tot"><span>Total</span><span class="co-tot-v" id="co-tot"></span></div>
+    </div>
+  </div>
+</div>
+
+<!-- ══ CONFIRMATION ══ -->
+<div id="pg-conf">
+  <div class="conf-inner">
+    <div class="conf-ico">✦</div>
+    <h1 class="conf-title">Order Placed</h1>
+    <p class="conf-sub">Thank you for shopping with TIZCO. A confirmation has been sent to your email.</p>
+    <div class="conf-num" id="conf-num"></div>
+    <div class="conf-items" id="conf-items"></div>
+    <div id="conf-bank" class="conf-bank" style="display:none">
+      <h4>Bank Transfer Instructions</h4>
+      <div class="brow"><span>Bank</span><span>First Bank of Nigeria</span></div>
+      <div class="brow"><span>Account Name</span><span>TIZCO Store Ltd</span></div>
+      <div class="brow"><span>Account Number</span><span>3012345678</span></div>
+      <div class="brow"><span>Reference</span><span class="bref" id="conf-ref"></span></div>
+      <div class="brow"><span>Amount</span><span id="conf-amt" style="color:var(--gold)"></span></div>
+    </div>
+    <div class="conf-cta" onclick="goto('home')">Continue Shopping</div>
+  </div>
+</div>
+
+<!-- PRODUCT MODAL -->
+<div class="mod-ov" id="pmod-ov" onclick="closePmod(event)">
+  <div class="pmod">
+    <div class="pmod-imgs" style="position:relative">
+      <img class="pmod-img" id="pmod-img" src="" alt="">
+      <div class="pmod-close" onclick="closePmodDirect()">✕</div>
+    </div>
+    <div class="pmod-info" id="pmod-info"></div>
+  </div>
+</div>
+
+<!-- SIZE GUIDE MODAL -->
+<div class="mod-ov" id="sg-ov" onclick="closeSG(event)">
+  <div class="pmod sg-modal" style="grid-template-columns:1fr;max-width:560px">
+    <div style="padding:28px">
+      <div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:20px">
+        <h3 style="font-family:var(--serif);font-size:1.4rem;font-weight:300">Size Guide</h3>
+        <span style="font-size:1.1rem;color:var(--muted);cursor:pointer" onclick="document.getElementById('sg-ov').classList.remove('open')">✕</span>
+      </div>
+      <table class="sg-table">
+        <thead><tr><th>Size</th><th>Chest (cm)</th><th>Waist (cm)</th><th>Hips (cm)</th></tr></thead>
+        <tbody>
+          <tr><td>XS</td><td>84–88</td><td>70–74</td><td>88–92</td></tr>
+          <tr><td>S</td><td>88–92</td><td>74–78</td><td>92–96</td></tr>
+          <tr><td>M</td><td>92–96</td><td>78–82</td><td>96–100</td></tr>
+          <tr><td>L</td><td>96–100</td><td>82–86</td><td>100–104</td></tr>
+          <tr><td>XL</td><td>100–104</td><td>86–90</td><td>104–108</td></tr>
+          <tr><td>XXL</td><td>104–110</td><td>90–96</td><td>108–114</td></tr>
+        </tbody>
+      </table>
+    </div>
+  </div>
+</div>
+
+<!-- CART DRAWER -->
+<div class="cart-ov" id="cart-ov" onclick="closeCartOv(event)">
+  <div class="cart">
+    <div class="cart-hd">
+      <div>
+        <h3>Your Cart</h3>
+        <div style="font-size:.72rem;color:var(--muted)" id="cart-count-lbl"></div>
+      </div>
+      <span class="cart-close" onclick="closeCart()">✕</span>
+    </div>
+    <div class="cart-items" id="cart-list"></div>
+    <div class="cart-cp">
+      <div class="cp-row">
+        <input class="cp-in" type="text" id="cp-code" placeholder="Coupon code" style="text-transform:uppercase">
+        <button class="cp-btn" onclick="applyCoupon()">Apply</button>
+      </div>
+      <div class="cp-msg" id="cp-msg"></div>
+    </div>
+    <div class="cart-ft">
+      <div class="cart-row"><span class="cart-row-l">Subtotal</span><span class="cart-row-v" id="cart-sub"></span></div>
+      <div class="disc-row" id="disc-row" style="display:none"><span>Discount</span><span id="disc-val"></span></div>
+      <button class="co-btn" onclick="goCheckout()">Checkout</button>
+      <button class="cont-btn" onclick="closeCart()">Continue Shopping</button>
+    </div>
+  </div>
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast-el"><span class="toast-ico">✦</span><span id="toast-txt"></span></div>
+
+<script>
+// ══════════════════════════════════════════
+// TIZCO DEMO — SELF-CONTAINED STOREFRONT
+// All data is mock. No backend required.
+// ══════════════════════════════════════════
+
+// ─── PRODUCT DATA ────────────────────────
+const PRODUCTS = [
+  {id:1,name:'Oxford Dress Shirt',cat:'Clothing',price:38500,orig:null,badge:'New',
+   img:'https://images.unsplash.com/photo-1602810318383-e386cc2a3ccf?w=600&q=80&auto=format&fit=crop',
+   img2:'https://images.unsplash.com/photo-1593030761757-71fae45fa0e7?w=600&q=80&auto=format&fit=crop',
+   sizes:['XS','S','M','L','XL','XXL'],desc:'Crafted from 100% Egyptian cotton with a slim, tailored fit. A cornerstone of the considered wardrobe.',sku:'TZ-CL-001'},
+  {id:2,name:'Merino Crew Neck',cat:'Clothing',price:52000,orig:65000,badge:'Sale',
+   img:'https://images.unsplash.com/photo-1617127365659-c47fa864d8bc?w=600&q=80&auto=format&fit=crop',
+   img2:'https://images.unsplash.com/photo-1552902865-b72c031ac5ea?w=600&q=80&auto=format&fit=crop',
+   sizes:['S','M','L','XL'],desc:'Extra-fine merino wool knitwear. Breathable, itch-free, and beautifully structured.',sku:'TZ-CL-002'},
+  {id:3,name:'Slim Chino Trousers',cat:'Clothing',price:44000,orig:null,badge:null,
+   img:'https://images.unsplash.com/photo-1473966968600-fa801b869a1a?w=600&q=80&auto=format&fit=crop',
+   img2:'https://images.unsplash.com/photo-1490481651871-ab68de25d43d?w=600&q=80&auto=format&fit=crop',
+   sizes:['28','30','32','34','36'],desc:'Stretch-cotton chinos with a clean silhouette. From boardroom to dinner.',sku:'TZ-CL-003'},
+  {id:4,name:'Derby Oxford Shoes',cat:'Shoes',price:78000,orig:null,badge:'New',
+   img:'https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=600&q=80&auto=format&fit=crop',
+   img2:'https://images.unsplash.com/photo-1549298916-b41d501d3772?w=600&q=80&auto=format&fit=crop',
+   sizes:['39','40','41','42','43','44','45'],desc:'Hand-crafted full-grain leather oxford. Blake-stitched sole. Ages magnificently.',sku:'TZ-SH-001'},
+  {id:5,name:'Suede Penny Loafers',cat:'Shoes',price:65000,orig:null,badge:null,
+   img:'https://images.unsplash.com/photo-1533867617858-e7b97e060509?w=600&q=80&auto=format&fit=crop',
+   img2:'https://images.unsplash.com/photo-1491553895911-0055eca6402d?w=600&q=80&auto=format&fit=crop',
+   sizes:['39','40','41','42','43','44'],desc:'Italian-tanned suede loafers with a leather sole. The definition of effortless.',sku:'TZ-SH-002'},
+  {id:6,name:'Leather Briefcase',cat:'Bags',price:125000,orig:null,badge:'New',
+   img:'https://images.unsplash.com/photo-1548036328-c9fa89d128fa?w=600&q=80&auto=format&fit=crop',
+   img2:'https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=600&q=80&auto=format&fit=crop',
+   sizes:['One Size'],desc:'Full-grain vegetable-tanned leather briefcase with a 15″ padded laptop compartment.',sku:'TZ-BG-001'},
+  {id:7,name:'Canvas Weekend Bag',cat:'Bags',price:88000,orig:110000,badge:'Sale',
+   img:'https://images.unsplash.com/photo-1553062407-98eeb64c6a62?w=600&q=80&auto=format&fit=crop',
+   img2:'https://images.unsplash.com/photo-1548036328-c9fa89d128fa?w=600&q=80&auto=format&fit=crop',
+   sizes:['One Size'],desc:'Heavy-duty waxed canvas with full-grain leather trim. A companion for life.',sku:'TZ-BG-002'},
+  {id:8,name:'Full-Grain Dress Belt',cat:'Belts',price:22000,orig:null,badge:null,
+   img:'https://images.unsplash.com/photo-1624222247344-550fb60583dc?w=600&q=80&auto=format&fit=crop',
+   img2:'https://images.unsplash.com/photo-1624222247344-550fb60583dc?w=600&q=80&auto=format&fit=crop',
+   sizes:['30','32','34','36','38','40'],desc:'Single-piece full-grain leather dress belt with a polished silver buckle.',sku:'TZ-BL-001'},
+  {id:9,name:'Automatic GMT Watch',cat:'Accessories',price:185000,orig:null,badge:'New',
+   img:'https://images.unsplash.com/photo-1523170335258-f5ed11844a49?w=600&q=80&auto=format&fit=crop',
+   img2:'https://images.unsplash.com/photo-1594534475808-b18fc33b045e?w=600&q=80&auto=format&fit=crop',
+   sizes:['One Size'],desc:'Miyota automatic movement. 316L stainless steel case. 100m water resistant.',sku:'TZ-AC-001'},
+  {id:10,name:'Slim Card Wallet',cat:'Accessories',price:18500,orig:null,badge:null,
+   img:'https://images.unsplash.com/photo-1627123424574-724758594e93?w=600&q=80&auto=format&fit=crop',
+   img2:'https://images.unsplash.com/photo-1627123424574-724758594e93?w=600&q=80&auto=format&fit=crop',
+   sizes:['One Size'],desc:'Six-slot cardholder crafted from Horween shell cordovan. Gets better with age.',sku:'TZ-AC-002'},
+  {id:11,name:'Wool Blazer',cat:'Clothing',price:98000,orig:null,badge:null,
+   img:'https://images.unsplash.com/photo-1507679799987-c73779587ccf?w=600&q=80&auto=format&fit=crop',
+   img2:'https://images.unsplash.com/photo-1593030761757-71fae45fa0e7?w=600&q=80&auto=format&fit=crop',
+   sizes:['S','M','L','XL','XXL'],desc:'Hopsack wool blazer with an unlined chest pocket. Effortlessly refined.',sku:'TZ-CL-004'},
+  {id:12,name:'Chelsea Boots',cat:'Shoes',price:92000,orig:null,badge:null,
+   img:'https://images.unsplash.com/photo-1608256246200-53e635b5b65f?w=600&q=80&auto=format&fit=crop',
+   img2:'https://images.unsplash.com/photo-1542291026-7eec264c27ff?w=600&q=80&auto=format&fit=crop',
+   sizes:['39','40','41','42','43','44','45'],desc:'Pull-on calf leather Chelsea boots with elastic side goring. A wardrobe essential.',sku:'TZ-SH-003'},
+];
+
+// ─── STATE ────────────────────────────────
+let cart = JSON.parse(localStorage.getItem('tz_cart')||'[]');
+let wishlist = JSON.parse(localStorage.getItem('tz_wish')||'[]');
+let activeCoupon = null;
+let currentProd = null;
+let selSize = null;
+let qty = 1;
+let slide = 0;
+let slideTimer;
+let filteredProds = [...PRODUCTS];
+let selPay_type = 'card';
+
+// ─── BOOT ────────────────────────────────
+window.addEventListener('load', () => {
+  renderFeatured();
+  renderShopGrid(PRODUCTS);
+  updateCartUI();
+  startHero();
+  setTimeout(() => document.getElementById('loader').classList.add('out'), 2000);
+  window.addEventListener('scroll', () => {
+    document.getElementById('main-nav').classList.toggle('solid', window.scrollY > 30);
+  });
+});
+
+// ─── FORMAT ──────────────────────────────
+const fmt = n => '₦' + Number(n).toLocaleString('en-NG');
+
+// ─── CARD HTML ────────────────────────────
+function cardHTML(p) {
+  const inW = wishlist.includes(p.id);
+  const disc = p.orig && p.orig > p.price;
+  return `<div class="pcard" onclick="openProd(${p.id})">
+    <div class="pcard-img">
+      <img src="${p.img}" alt="${p.name}" loading="lazy">
+      <div class="pcard-img2"><img src="${p.img2||p.img}" alt="${p.name}" loading="lazy"></div>
+      ${p.badge?`<span class="pbadge ${p.badge.toLowerCase()}">${p.badge}</span>`:''}
+      <button class="pwish ${inW?'on':''}" onclick="toggleWish(event,${p.id})">♡</button>
+      <div class="pquick" onclick="quickAdd(event,${p.id})">Quick Add</div>
+    </div>
+    <div class="pinfo">
+      <div class="pcat">${p.cat}</div>
+      <div class="pname">${p.name}</div>
+      <div class="pprices">
+        <span class="pprice">${fmt(p.price)}</span>
+        ${disc?`<span class="porig">${fmt(p.orig)}</span>`:''}
+      </div>
+    </div>
+  </div>`;
+}
+
+// ─── FEATURED ────────────────────────────
+function renderFeatured() {
+  document.getElementById('featured-grid').innerHTML = PRODUCTS.slice(0,8).map(cardHTML).join('');
+}
+
+// ─── SHOP GRID ────────────────────────────
+function renderShopGrid(prods) {
+  const g = document.getElementById('shop-grid');
+  document.getElementById('pcount').textContent = `${prods.length} product${prods.length!==1?'s':''}`;
+  g.innerHTML = prods.length ? prods.map(cardHTML).join('') :
+    '<div style="grid-column:1/-1;text-align:center;padding:60px;color:var(--muted);font-family:var(--serif);font-size:1.2rem">No products found</div>';
+}
+
+// ─── FILTERS ─────────────────────────────
+function applyFilters() {
+  const cats = [...document.querySelectorAll('#cat-filters input:checked')].map(c=>c.value);
+  const minP = parseFloat(document.getElementById('pr-min').value)||0;
+  const maxP = parseFloat(document.getElementById('pr-max').value)||Infinity;
+  const sort = document.getElementById('sort-sel').value;
+  filteredProds = PRODUCTS.filter(p => {
+    if (cats.length && !cats.includes(p.cat)) return false;
+    if (p.price < minP || p.price > maxP) return false;
+    return true;
+  });
+  if (sort==='price-asc') filteredProds.sort((a,b)=>a.price-b.price);
+  if (sort==='price-desc') filteredProds.sort((a,b)=>b.price-a.price);
+  renderShopGrid(filteredProds);
+  renderPills(cats);
+}
+
+function renderPills(cats) {
+  document.getElementById('active-filters').innerHTML = cats.map(c=>`
+    <div class="pill">${c}<span class="pill-x" onclick="removeCat('${c}')">✕</span></div>`).join('');
+}
+
+function removeCat(c) {
+  document.querySelectorAll('#cat-filters input').forEach(cb=>{if(cb.value===c)cb.checked=false;});
+  applyFilters();
+}
+
+function setView(v) {
+  const g = document.getElementById('shop-grid');
+  g.classList.toggle('lv', v==='l');
+  document.getElementById('vbtn-g').classList.toggle('on',v==='g');
+  document.getElementById('vbtn-l').classList.toggle('on',v==='l');
+}
+
+// ─── PRODUCT MODAL ────────────────────────
+function openProd(id) {
+  currentProd = PRODUCTS.find(p=>p.id===id);
+  if (!currentProd) return;
+  selSize=null; qty=1;
+  const p = currentProd;
+  const disc = p.orig && p.orig > p.price;
+  const rel = PRODUCTS.filter(r=>r.cat===p.cat&&r.id!==p.id).slice(0,3);
+  document.getElementById('pmod-img').src = p.img;
+  document.getElementById('pmod-img').alt = p.name;
+  document.getElementById('pmod-info').innerHTML = `
+    <div class="pmod-cat">${p.cat} · ${p.sku}</div>
+    <div class="pmod-name">${p.name}</div>
+    <div class="pmod-prices">
+      <span class="pmod-price">${fmt(p.price)}</span>
+      ${disc?`<span class="pmod-orig">${fmt(p.orig)}</span>`:''}
+    </div>
+    <p class="pmod-desc">${p.desc}</p>
+    ${p.sizes&&p.sizes.length?`
+    <div class="pmod-lbl">Select Size</div>
+    <div class="sizes">${p.sizes.map(s=>`<button class="sbtn" onclick="selSz('${s}',this)">${s}</button>`).join('')}</div>
+    <a class="sg-link" onclick="openSizeGuide()">View Size Guide</a>`:''}
+    <div class="pmod-lbl">Quantity</div>
+    <div class="qty-w">
+      <button class="qbtn" onclick="chgQty(-1)">−</button>
+      <span class="qval" id="qval">1</span>
+      <button class="qbtn" onclick="chgQty(1)">+</button>
+    </div>
+    <div class="pmod-acts">
+      <button class="add-btn" onclick="addFromModal()">Add to Cart</button>
+      <button class="wish-btn ${wishlist.includes(p.id)?'on':''}" id="wish-mod-btn" onclick="toggleWishMod(${p.id})">♡</button>
+    </div>
+    ${rel.length?`
+    <div class="rel-wrap">
+      <div class="rel-title">You may also like</div>
+      <div class="rel-grid">
+        ${rel.map(r=>`<div class="rel-card" onclick="openProd(${r.id})">
+          <img src="${r.img}" alt="${r.name}">
+          <div class="rel-name">${r.name}</div>
+          <div class="rel-price">${fmt(r.price)}</div>
+        </div>`).join('')}
+      </div>
+    </div>`:''}`;
+  document.getElementById('pmod-ov').classList.add('open');
+  document.body.style.overflow='hidden';
+}
+
+function selSz(s,btn) {
+  document.querySelectorAll('.sbtn').forEach(b=>b.classList.remove('on'));
+  btn.classList.add('on');
+  selSize=s;
+}
+
+function chgQty(d) {
+  qty=Math.max(1,Math.min(10,qty+d));
+  const el=document.getElementById('qval');
+  if(el)el.textContent=qty;
+}
+
+function addFromModal() {
+  if(!currentProd)return;
+  if(currentProd.sizes&&currentProd.sizes.length>1&&!selSize){toast('Please select a size');return;}
+  addToCart(currentProd,qty,selSize||currentProd.sizes?.[0]);
+  closePmodDirect();
+}
+
+function closePmodDirect(){document.getElementById('pmod-ov').classList.remove('open');document.body.style.overflow='';}
+function closePmod(e){if(e.target===document.getElementById('pmod-ov'))closePmodDirect();}
+
+function toggleWish(e,id){
+  e.stopPropagation();
+  const i=wishlist.indexOf(id);
+  if(i>-1)wishlist.splice(i,1);else wishlist.push(id);
+  localStorage.setItem('tz_wish',JSON.stringify(wishlist));
+  e.target.classList.toggle('on',wishlist.includes(id));
+  toast(wishlist.includes(id)?'Added to wishlist':'Removed from wishlist');
+}
+
+function toggleWishMod(id){
+  const i=wishlist.indexOf(id);
+  if(i>-1)wishlist.splice(i,1);else wishlist.push(id);
+  localStorage.setItem('tz_wish',JSON.stringify(wishlist));
+  const btn=document.getElementById('wish-mod-btn');
+  if(btn)btn.classList.toggle('on',wishlist.includes(id));
+  toast(wishlist.includes(id)?'Added to wishlist':'Removed from wishlist');
+}
+
+function quickAdd(e,id){
+  e.stopPropagation();
+  const p=PRODUCTS.find(x=>x.id===id);
+  if(!p)return;
+  if(p.sizes&&p.sizes.length>1){openProd(id);return;}
+  addToCart(p,1,p.sizes?.[0]||null);
+}
+
+// ─── CART ────────────────────────────────
+function addToCart(p,q=1,size=null){
+  const ex=cart.find(i=>i.id===p.id&&i.size===size);
+  if(ex)ex.qty+=q;
+  else cart.push({id:p.id,name:p.name,price:p.price,img:p.img,size,qty:q});
+  saveCart();updateCartUI();
+  toast('Added to cart');
+}
+
+function saveCart(){localStorage.setItem('tz_cart',JSON.stringify(cart));}
+
+function updateCartUI(){
+  const total=cart.reduce((s,i)=>s+i.qty,0);
+  const badge=document.getElementById('cart-badge');
+  badge.style.display=total>0?'flex':'none';
+  badge.textContent=total;
+  document.getElementById('cart-count-lbl').textContent=`${total} item${total!==1?'s':''}`;
+  renderCartItems();
+  updateCartTotals();
+}
+
+function renderCartItems(){
+  const list=document.getElementById('cart-list');
+  if(!cart.length){
+    list.innerHTML=`<div class="cart-empty">
+      <div class="ce-ico">🛍️</div>
+      <div class="ce-ttl">Your cart is empty</div>
+      <div style="font-size:.82rem">Discover our collection</div>
+    </div>`;return;
+  }
+  list.innerHTML=cart.map((item,i)=>`
+    <div class="ci">
+      <img class="ci-img" src="${item.img}" alt="${item.name}">
+      <div>
+        <div class="ci-name">${item.name}</div>
+        <div class="ci-meta">${item.size?'Size: '+item.size:''}</div>
+        <div class="ci-row">
+          <div class="ci-qty">
+            <span class="ci-qbtn" onclick="adjCart(${i},-1)">−</span>
+            <span>${item.qty}</span>
+            <span class="ci-qbtn" onclick="adjCart(${i},1)">+</span>
+          </div>
+          <span class="ci-price">${fmt(item.price*item.qty)}</span>
+        </div>
+        <span class="ci-rm" onclick="rmCart(${i})">Remove</span>
+      </div>
+    </div>`).join('');
+}
+
+function adjCart(i,d){cart[i].qty=Math.max(1,cart[i].qty+d);saveCart();updateCartUI();}
+function rmCart(i){cart.splice(i,1);saveCart();updateCartUI();}
+
+function updateCartTotals(){
+  const sub=cart.reduce((s,i)=>s+i.price*i.qty,0);
+  let disc=0;
+  if(activeCoupon){
+    if(activeCoupon.type==='pct')disc=sub*activeCoupon.val/100;
+    else disc=activeCoupon.val;
+  }
+  const dr=document.getElementById('disc-row');
+  if(disc>0){dr.style.display='flex';document.getElementById('disc-val').textContent='-'+fmt(disc);}
+  else dr.style.display='none';
+  document.getElementById('cart-sub').textContent=fmt(sub-disc);
+}
+
+function openCart(){document.getElementById('cart-ov').classList.add('open');document.body.style.overflow='hidden';}
+function closeCart(){document.getElementById('cart-ov').classList.remove('open');document.body.style.overflow='';}
+function closeCartOv(e){if(e.target===document.getElementById('cart-ov'))closeCart();}
+
+function applyCoupon(){
+  const code=document.getElementById('cp-code').value.trim().toUpperCase();
+  const msg=document.getElementById('cp-msg');
+  const COUPONS={'TIZCO10':{type:'pct',val:10,label:'10% off'},'TIZCO20':{type:'pct',val:20,label:'20% off'},'SAVE5K':{type:'fixed',val:5000,label:'₦5,000 off'}};
+  if(COUPONS[code]){
+    activeCoupon=COUPONS[code];
+    msg.className='cp-msg ok';msg.textContent=`✓ ${COUPONS[code].label} applied!`;
+    updateCartTotals();
+  } else {
+    msg.className='cp-msg err';msg.textContent='Invalid coupon code';
+  }
+}
+
+// ─── CHECKOUT ────────────────────────────
+function goCheckout(){
+  if(!cart.length){toast('Your cart is empty');return;}
+  closeCart();
+  goto('co');
+  renderCoSidebar();
+  ['co-1','co-2','co-3'].forEach(id=>document.getElementById(id).classList.remove('on'));
+  document.getElementById('co-1').classList.add('on');
+}
+
+function renderCoSidebar(){
+  const sub=cart.reduce((s,i)=>s+i.price*i.qty,0);
+  let disc=0;
+  if(activeCoupon){disc=activeCoupon.type==='pct'?sub*activeCoupon.val/100:activeCoupon.val;}
+  const ship=sub>=150000?0:3500;
+  const tot=sub-disc+ship;
+  document.getElementById('co-items').innerHTML=cart.map(item=>`
+    <div class="oi">
+      <img class="oi-img" src="${item.img}" alt="${item.name}">
+      <div><div class="oi-name">${item.name}</div><div class="oi-meta">${item.size?'Size: '+item.size:''} × ${item.qty}</div></div>
+      <span class="oi-price">${fmt(item.price*item.qty)}</span>
+    </div>`).join('');
+  document.getElementById('co-sub').textContent=fmt(sub);
+  const dr=document.getElementById('co-disc-row');
+  if(disc>0){dr.style.display='flex';document.getElementById('co-disc').textContent='-'+fmt(disc);}else dr.style.display='none';
+  document.getElementById('co-ship').textContent=ship?fmt(ship):'Free';
+  document.getElementById('co-tot').textContent=fmt(tot);
+}
+
+function coStep(n){
+  ['co-1','co-2','co-3'].forEach(id=>document.getElementById(id).classList.remove('on'));
+  document.getElementById('co-'+n).classList.add('on');
+  window.scrollTo({top:0,behavior:'smooth'});
+}
+
+function selPay(t){
+  selPay_type=t;
+  document.getElementById('pay-card').classList.toggle('on',t==='card');
+  document.getElementById('pay-bank').classList.toggle('on',t==='bank');
+  const bb=document.getElementById('bank-box');
+  bb.style.display=t==='bank'?'block':'none';
+  if(t==='bank'){
+    const ref='TZ-'+Date.now().toString(36).toUpperCase();
+    document.getElementById('co-ref').textContent=ref;
+    const sub=cart.reduce((s,i)=>s+i.price*i.qty,0);
+    let disc=0;if(activeCoupon)disc=activeCoupon.type==='pct'?sub*activeCoupon.val/100:activeCoupon.val;
+    const ship=sub>=150000?0:3500;
+    document.getElementById('co-bank-amt').textContent=fmt(sub-disc+ship);
+  }
+}
+
+function placeOrder(){
+  const sub=cart.reduce((s,i)=>s+i.price*i.qty,0);
+  let disc=0;if(activeCoupon)disc=activeCoupon.type==='pct'?sub*activeCoupon.val/100:activeCoupon.val;
+  const ship=sub>=150000?0:3500;
+  const tot=sub-disc+ship;
+  const orderNum='TZO-'+Date.now().toString(36).toUpperCase();
+  const ref=document.getElementById('co-ref').textContent||'TZ-'+Date.now().toString(36).toUpperCase();
+
+  document.getElementById('conf-num').textContent='Order #'+orderNum;
+  document.getElementById('conf-items').innerHTML=
+    cart.map(i=>`<div class="conf-item"><span>${i.name}${i.size?' ('+i.size+')':''} × ${i.qty}</span><span>${fmt(i.price*i.qty)}</span></div>`).join('')+
+    `<div class="conf-tot"><span>Total</span><span>${fmt(tot)}</span></div>`;
+
+  const cb=document.getElementById('conf-bank');
+  if(selPay_type==='bank'){
+    cb.style.display='block';
+    document.getElementById('conf-ref').textContent=ref;
+    document.getElementById('conf-amt').textContent=fmt(tot);
+  } else cb.style.display='none';
+
+  if(selPay_type==='card') toast('In production this opens Paystack ✦');
+
+  cart=[];saveCart();updateCartUI();activeCoupon=null;
+  goto('conf');
+}
+
+// ─── HERO CAROUSEL ───────────────────────
+function goSlide(n){
+  document.querySelectorAll('.h-slide').forEach(s=>s.classList.remove('on'));
+  document.querySelectorAll('.h-dot').forEach(d=>d.classList.remove('on'));
+  slide=(n+3)%3;
+  document.getElementById('sl-'+slide).classList.add('on');
+  document.querySelectorAll('.h-dot')[slide].classList.add('on');
+}
+function nextSlide(){goSlide(slide+1);resetTimer();}
+function prevSlide(){goSlide(slide-1);resetTimer();}
+function startHero(){slideTimer=setInterval(()=>goSlide(slide+1),6000);}
+function resetTimer(){clearInterval(slideTimer);startHero();}
+
+// ─── ROUTING ─────────────────────────────
+function goto(pg){
+  ['home','shop','co','conf'].forEach(p=>{
+    document.getElementById('pg-'+p).style.display=p===pg?'block':'none';
+  });
+  window.scrollTo({top:0});
+  document.querySelectorAll('.nav-link').forEach(l=>l.classList.remove('on'));
+  if(pg==='home')document.querySelectorAll('.nav-link')[0].classList.add('on');
+  if(pg==='shop')document.querySelectorAll('.nav-link')[1].classList.add('on');
+}
+
+function gotoShop(cat){
+  goto('shop');
+  document.querySelectorAll('#cat-filters input').forEach(cb=>{cb.checked=cat?cb.value===cat:false;});
+  if(cat){
+    document.getElementById('shop-title').textContent=cat;
+    document.getElementById('shop-sub').textContent=`Premium ${cat.toLowerCase()} from TIZCO`;
+  } else {
+    document.getElementById('shop-title').textContent='All Products';
+    document.getElementById('shop-sub').textContent='Curated menswear, footwear and accessories';
+  }
+  applyFilters();
+}
+
+// ─── NEWSLETTER ──────────────────────────
+function doSubscribe(){
+  const e=document.getElementById('nl-email').value.trim();
+  const m=document.getElementById('nl-msg');
+  if(!e||!/\S+@\S+\.\S+/.test(e)){m.textContent='Please enter a valid email';return;}
+  m.className='nl-msg ok';m.textContent='Welcome to the inner circle ✦';
+  document.getElementById('nl-email').value='';
+}
+
+// ─── SIZE GUIDE ───────────────────────────
+function openSizeGuide(){document.getElementById('sg-ov').classList.add('open');}
+function closeSG(e){if(e.target===document.getElementById('sg-ov'))document.getElementById('sg-ov').classList.remove('open');}
+
+// ─── TOAST ───────────────────────────────
+let toastTimer;
+function toast(msg){
+  clearTimeout(toastTimer);
+  const el=document.getElementById('toast-el');
+  document.getElementById('toast-txt').textContent=msg;
+  el.classList.add('show');
+  toastTimer=setTimeout(()=>el.classList.remove('show'),2800);
+}
+
+// ─── MISC ─────────────────────────────────
+function toggleMob(){
+  document.getElementById('mob-nav').classList.toggle('open');
+  document.getElementById('burger').classList.toggle('open');
+}
+</script>
+</body>
+</html>
