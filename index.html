@@ -3,8 +3,8 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>TIZCO — Refined Men's Fashion</title>
-<meta name="description" content="TIZCO — Premium men's clothing, shoes, bags, belts and accessories.">
+<title>ARYA MARKET — Refined Men's Fashion</title>
+<meta name="description" content="ARYA MARKET — Premium men's clothing, shoes, bags, belts and accessories.">
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;0,500;0,600;1,300;1,400;1,500&family=DM+Sans:opsz,wght@9..40,300;9..40,400;9..40,500&display=swap" rel="stylesheet">
@@ -631,14 +631,14 @@ footer{background:var(--bg3);border-top:1px solid var(--border2);padding:56px 80
 
 <!-- LOADER -->
 <div id="loader">
-  <div class="ld-logo">TIZCO</div>
+  <div class="ld-logo">ARYA MARKET</div>
   <div class="ld-tagline">Refined Men's Fashion</div>
   <div class="ld-bar"><div class="ld-fill"></div></div>
 </div>
 
 <!-- NAV -->
 <nav id="main-nav">
-  <div class="nav-logo" onclick="goto('home')">TIZCO</div>
+  <div class="nav-logo" onclick="goto('home')">ARYAMARKET</div>
   <div class="nav-links">
     <span class="nav-link on" onclick="goto('home')">Home</span>
     <span class="nav-link" onclick="gotoShop()">Shop</span>
@@ -838,7 +838,7 @@ footer{background:var(--bg3);border-top:1px solid var(--border2);padding:56px 80
   <footer>
     <div class="ft">
       <div class="ft-brand">
-        <h3>TIZCO</h3>
+        <h3>ARYA MARKET</h3>
         <p>Premium men's fashion at the intersection of modern masculinity and refined taste.</p>
         <div class="ft-soc">
           <div class="ft-s" onclick="toast('Follow us on Instagram @tizco')">📷</div>
@@ -858,18 +858,18 @@ footer{background:var(--bg3);border-top:1px solid var(--border2);padding:56px 80
         <li><a onclick="toast('Free shipping over ₦150,000')">Shipping Policy</a></li>
         <li><a onclick="toast('30-day hassle-free returns')">Returns</a></li>
         <li><a onclick="toast('Track your order via email confirmation')">Track Order</a></li>
-        <li><a onclick="toast('Email us: hello@tizco.com')">Contact Us</a></li>
+        <li><a onclick="toast('Email us: hello@aryamarket.com')">Contact Us</a></li>
       </ul></div>
       <div class="ft-col"><h4>Company</h4><ul>
-        <li><a onclick="toast('TIZCO — Refined Men\'s Fashion')">About TIZCO</a></li>
+        <li><a onclick="toast('ARYA MARKET — Refined Men\'s Fashion')">About ARYA MARKET</a></li>
         <li><a onclick="toast('Careers coming soon')">Careers</a></li>
-        <li><a onclick="toast('Press inquiries: press@tizco.com')">Press</a></li>
+        <li><a onclick="toast('Press inquiries: press@aryamarket.com')">Press</a></li>
         <li><a onclick="toast('Privacy Policy')">Privacy Policy</a></li>
         <li><a onclick="toast('Terms of Service')">Terms</a></li>
       </ul></div>
     </div>
     <div class="ft-bot">
-      <span>© 2025 TIZCO. All rights reserved.</span>
+      <span>© 2025 ARYA MARKET. All rights reserved.</span>
       <div style="display:flex;gap:14px"><a>Privacy</a><a>Terms</a><a>Cookies</a></div>
     </div>
   </footer>
@@ -1004,13 +1004,13 @@ footer{background:var(--bg3);border-top:1px solid var(--border2);padding:56px 80
   <div class="conf-inner">
     <div class="conf-ico">✦</div>
     <h1 class="conf-title">Order Placed</h1>
-    <p class="conf-sub">Thank you for shopping with TIZCO. A confirmation has been sent to your email.</p>
+    <p class="conf-sub">Thank you for shopping with ARYA MARKET. A confirmation has been sent to your email.</p>
     <div class="conf-num" id="conf-num"></div>
     <div class="conf-items" id="conf-items"></div>
     <div id="conf-bank" class="conf-bank" style="display:none">
       <h4>Bank Transfer Instructions</h4>
       <div class="brow"><span>Bank</span><span>First Bank of Nigeria</span></div>
-      <div class="brow"><span>Account Name</span><span>TIZCO Store Ltd</span></div>
+      <div class="brow"><span>Account Name</span><span>ARYA MARKET Store Ltd</span></div>
       <div class="brow"><span>Account Number</span><span>3012345678</span></div>
       <div class="brow"><span>Reference</span><span class="bref" id="conf-ref"></span></div>
       <div class="brow"><span>Amount</span><span id="conf-amt" style="color:var(--gold)"></span></div>
@@ -1142,8 +1142,8 @@ const PRODUCTS = [
 ];
 
 // ─── STATE ────────────────────────────────
-let cart = JSON.parse(localStorage.getItem('tz_cart')||'[]');
-let wishlist = JSON.parse(localStorage.getItem('tz_wish')||'[]');
+let cart = JSON.parse(localStorage.getItem('am_cart')||'[]');
+let wishlist = JSON.parse(localStorage.getItem('am_wish')||'[]');
 let activeCoupon = null;
 let currentProd = null;
 let selSize = null;
