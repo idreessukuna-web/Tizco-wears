@@ -673,7 +673,7 @@ footer{background:var(--bg3);border-top:1px solid var(--border2);padding:56px 80
 <!-- ══ HOME ══ -->
 <div id="pg-home">
 
-  <div class="ann">Free shipping on orders over ₦150,000 &nbsp;·&nbsp; Use code TIZCO10 for 10% off</div>
+  <div class="ann">Free shipping on orders over ₦150,000 &nbsp;·&nbsp; Use code ARYAMART10 for 10% off</div>
 
   <!-- HERO -->
   <div class="hero">
@@ -797,7 +797,7 @@ footer{background:var(--bg3);border-top:1px solid var(--border2);padding:56px 80
       <div>
         <div class="sec-tag">Our Philosophy</div>
         <h2 class="sec-title">Luxury is a<br>matter of <em>intent</em></h2>
-        <p class="sec-sub" style="margin-bottom:0">TIZCO was built on a single conviction: that a man who dresses with intention commands any room. Every piece in our collection is chosen to last, to age beautifully, and to make a quiet point. We don't follow trends. We set a standard.</p>
+        <p class="sec-sub" style="margin-bottom:0">ARYA MART was built on a single conviction: that a man who dresses with intention commands any room. Every piece in our collection is chosen to last, to age beautifully, and to make a quiet point. We don't follow trends. We set a standard.</p>
         <div class="stats">
           <div class="stat"><div class="stat-n">500+</div><div class="stat-l">Curated Products</div></div>
           <div class="stat"><div class="stat-n">12K+</div><div class="stat-l">Satisfied Customers</div></div>
@@ -806,7 +806,7 @@ footer{background:var(--bg3);border-top:1px solid var(--border2);padding:56px 80
         </div>
       </div>
       <div class="phil-img">
-        <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=600&q=80&auto=format&fit=crop" alt="TIZCO">
+        <img src="https://images.unsplash.com/photo-1507003211169-0a1dd7228f2d?w=600&q=80&auto=format&fit=crop" alt="ARYA MART">
         <div class="phil-quote">"Quality is remembered long after the price is forgotten."</div>
       </div>
     </div>
@@ -841,8 +841,8 @@ footer{background:var(--bg3);border-top:1px solid var(--border2);padding:56px 80
         <h3>ARYA MARKET</h3>
         <p>Premium men's fashion at the intersection of modern masculinity and refined taste.</p>
         <div class="ft-soc">
-          <div class="ft-s" onclick="toast('Follow us on Instagram @tizco')">📷</div>
-          <div class="ft-s" onclick="toast('Follow us @tizco')">𝕏</div>
+          <div class="ft-s" onclick="toast('Follow us on Instagram @aryamarket')">📷</div>
+          <div class="ft-s" onclick="toast('Follow us @aryamarket')">𝕏</div>
           <div class="ft-s" onclick="toast('Like us on Facebook')">f</div>
         </div>
       </div>
@@ -978,7 +978,7 @@ footer{background:var(--bg3);border-top:1px solid var(--border2);padding:56px 80
         <div class="bank-box" id="bank-box" style="display:none">
           <h4>Bank Account Details</h4>
           <div class="brow"><span>Bank Name</span><span>First Bank of Nigeria</span></div>
-          <div class="brow"><span>Account Name</span><span>TIZCO Store Ltd</span></div>
+          <div class="brow"><span>Account Name</span><span>ARYA MARKET Ltd</span></div>
           <div class="brow"><span>Account Number</span><span>3012345678</span></div>
           <div class="brow"><span>Reference</span><span class="bref" id="co-ref"></span></div>
           <div class="brow"><span>Amount</span><span id="co-bank-amt" style="color:var(--gold)"></span></div>
@@ -1405,7 +1405,7 @@ function closeCartOv(e){if(e.target===document.getElementById('cart-ov'))closeCa
 function applyCoupon(){
   const code=document.getElementById('cp-code').value.trim().toUpperCase();
   const msg=document.getElementById('cp-msg');
-  const COUPONS={'TIZCO10':{type:'pct',val:10,label:'10% off'},'TIZCO20':{type:'pct',val:20,label:'20% off'},'SAVE5K':{type:'fixed',val:5000,label:'₦5,000 off'}};
+  const COUPONS={'ARYAMART10':{type:'pct',val:10,label:'10% off'},'ARYAMART20':{type:'pct',val:20,label:'20% off'},'SAVE5K':{type:'fixed',val:5000,label:'₦5,000 off'}};
   if(COUPONS[code]){
     activeCoupon=COUPONS[code];
     msg.className='cp-msg ok';msg.textContent=`✓ ${COUPONS[code].label} applied!`;
@@ -1521,7 +1521,7 @@ function gotoShop(cat){
   document.querySelectorAll('#cat-filters input').forEach(cb=>{cb.checked=cat?cb.value===cat:false;});
   if(cat){
     document.getElementById('shop-title').textContent=cat;
-    document.getElementById('shop-sub').textContent=`Premium ${cat.toLowerCase()} from TIZCO`;
+    document.getElementById('shop-sub').textContent=`Premium ${cat.toLowerCase()} from ARYA MARKET `;
   } else {
     document.getElementById('shop-title').textContent='All Products';
     document.getElementById('shop-sub').textContent='Curated menswear, footwear and accessories';
